@@ -1,3 +1,10 @@
 # Auto detect text files and perform LF normalization
 * text=auto
 I am trying new things
+List<List<Sobject>> searchList=[FIND 'SERT' IN ALL FIELDS RETURNING 
+                               Account, Contact, Opportunity,Lead];
+Account[] Accounts=((List<Account>)searchList[0]);
+Contact[] Contacts = ((List<Contact>)searchList[1]);
+System.debug(searchList);
+System.debug(Accounts);
+System.debug(Contacts);
