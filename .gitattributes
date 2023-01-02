@@ -34,5 +34,18 @@ public class OlderAccountsUtility {
         for(Account acct : oldAccounts){
             acct.Description = 'Heritage Account';
         }   update oldAccounts;
-    }
-}
+    // DatavariableName =Exp.
+Lead singlelead = NEW Lead();
+singlelead.FirstName='Ahmet';
+singlelead.LastName='SERT';
+singlelead.Company='Clarusway';
+singlelead.Status='Working - Contacted';
+
+System.debug('Single Lead ID Before DML : '+singleLead.id);
+
+System.debug(singleLead);
+// DML
+insert singlelead;
+System.debug('Single Lead ID AFTER DML :  '+singleLead.id);
+
+System.debug(singlelead);
