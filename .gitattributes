@@ -79,3 +79,15 @@ system.debug(singleAcc);
 
 
 delete singleAcc;  
+List<Account> singleAcc = [SELECT Id,Name, Isdeleted FROM Account WHERE 
+                     Isdeleted = True ALL ROWS ];
+
+
+Undelete singleAcc;   
+   
+for(Account x:singleAcc){ 
+x.phone='+90 345 456 45 45';
+x.Name= x.Name.toLowerCase();
+System.debug(x);
+}
+update singleAcc;
