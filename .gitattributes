@@ -70,3 +70,12 @@ System.debug(SingleAcc);
 
 update singleAcc;   
 upsert singleAcc;
+
+
+String accountName = 'TRIFORCIA';
+Account singleAcc = [SELECT Id, Name FROM Account WHERE Name=:accountName  ];
+system.debug(singleAcc);
+
+
+
+delete singleAcc;  
