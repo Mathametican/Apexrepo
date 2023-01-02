@@ -14,3 +14,16 @@ FIND {Cloud Kicks} RETURNING Account
 FIND {Cloud kicks} RETURNING Account(Name, Industry ORDER BY Name)
 FIND {Cloud kicks} RETURNING Account(Name, Industry ORDER BY Name LIMIT 11)
 FIND {company} RETURNING Account(Name, Industry ORDER BY Name LIMIT 11 OFFSET 25)
+
+FIND {Cloud Kicks} RETURNING Account (Name, Industry)
+    WITH DIVISION = 'Global'
+
+ FIND {race} RETURNING KnowledgeArticleVersion
+    (Id, Title WHERE PublishStatus='online' and language='en_US')
+    WITH DATA CATEGORY Location__c AT America__c   
+
+FIND {first place} RETURNING User (Id, Name),
+FeedItem (id, ParentId WHERE CreatedDate = THIS_YEAR Order by CreatedDate DESC)
+WITH NETWORK = '00000000000001'
+
+Find {shoe} RETURNING Product2 WITH PricebookId = '01sxx0000002MffAAE'
