@@ -59,3 +59,14 @@ y.firstName='Deniz';
 y.lastName = 'Manisa';
 y.AccountId = x.Id;
 insert y;
+
+String accountName = 'TRIFORCIA';
+Account singleAcc = [SELECT Id, Name FROM Account WHERE Name=:accountName  ];
+system.debug(singleAcc);
+
+singleAcc.phone='+90 345 456 45 45';
+singleAcc.Name = singleAcc.Name.toLowerCase();
+System.debug(SingleAcc);
+
+update singleAcc;   
+upsert singleAcc;
