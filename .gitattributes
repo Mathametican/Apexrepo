@@ -27,3 +27,12 @@ FeedItem (id, ParentId WHERE CreatedDate = THIS_YEAR Order by CreatedDate DESC)
 WITH NETWORK = '00000000000001'
 
 Find {shoe} RETURNING Product2 WITH PricebookId = '01sxx0000002MffAAE'
+
+public class OlderAccountsUtility {
+    public static void updateOlderAccounts(){
+        Account[]  oldAccounts = [SELECT Id, Description FROM Account ORDER BY CreatedDate ASC LIMIT 5];
+        for(Account acct : oldAccounts){
+            acct.Description = 'Heritage Account';
+        }   update oldAccounts;
+    }
+}
