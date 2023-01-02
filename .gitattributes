@@ -8,3 +8,9 @@ Contact[] Contacts = ((List<Contact>)searchList[1]);
 System.debug(searchList);
 System.debug(Accounts);
 System.debug(Contacts);
+
+FIND { .com } IN EMAIL FIELDS RETURNING Contact
+FIND {Cloud Kicks} RETURNING Account
+FIND {Cloud kicks} RETURNING Account(Name, Industry ORDER BY Name)
+FIND {Cloud kicks} RETURNING Account(Name, Industry ORDER BY Name LIMIT 11)
+FIND {company} RETURNING Account(Name, Industry ORDER BY Name LIMIT 11 OFFSET 25)
