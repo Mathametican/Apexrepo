@@ -49,3 +49,13 @@ insert singlelead;
 System.debug('Single Lead ID AFTER DML :  '+singleLead.id);
 
 System.debug(singlelead);
+
+Account x=New Account();
+x.Name='TRIFORCIA';
+insert x;
+ 
+Contact y= New Contact();
+y.firstName='Deniz';
+y.lastName = 'Manisa';
+y.AccountId = x.Id;
+insert y;
