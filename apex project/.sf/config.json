@@ -1,4 +1,12 @@
 {
   "target-org": "developer1"
-  image.png
+  kullanici__c x=new kullanici__c();
+x.Name='Ayşe';
+insert x;
+
+roleler__c y=new roleler__c();
+y.Name='Admin';
+y.kullanici__c=x.Id;
+insert y;
+
 }
