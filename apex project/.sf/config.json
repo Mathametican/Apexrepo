@@ -8,5 +8,11 @@ roleler__c y=new roleler__c();
 y.Name='Admin';
 y.kullanici__c=x.Id;
 insert y;
+list<list<Sobject>> x=[FIND 'ah' IN ALL FIELDS RETURNING kullanici__c(Name)];
+System.debug(x);
+list<kullanici__c> y=x.get(0);// list içindeki seçtik
+for(kullanici__c a:y){ // for döngüsü ile ayrı ayrı getirilmesini sağladık
+    System.debug(a.Name);  // sadece name döndürülmesini sağladık.
+}
 
 }
