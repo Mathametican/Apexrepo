@@ -1,0 +1,15 @@
+<apex:page standardController="Opportunity" recordSetVar="multiopp" tabStyle="opportunity" >
+<apex:form >
+<apex:selectList value="{!filterId}" size="1">
+<apex:selectOptions value="{!listviewoptions}"/>
+</apex:selectList>
+<apex:commandButton value="GO" action="{!list}" />
+</apex:form>
+<apex:pageBlock >
+<apex:pageBlockTable var="opp" value="{!multiopp}">
+<apex:column value="{!opp.Name}"/>
+<apex:column value="{!opp.Amount}"/>
+<apex:column value="{!opp.stageName}"/>
+</apex:pageBlockTable>
+</apex:pageBlock>
+  </apex:page>
