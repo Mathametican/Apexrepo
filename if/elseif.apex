@@ -9,4 +9,6 @@ if(x<y){
     System.debug('x is bigger than y');
 }if(y==20){
     System.debug('y==20');
+}if(x==10){
+    System.debug('x==10');
 }
