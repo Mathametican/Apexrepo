@@ -1,0 +1,14 @@
+Integer x=0;
+while(x<11){
+     x++;
+    System.debug('x 11 den küçüktür.x ='+x);
+   
+}
+
+
+Integer x=0;
+while(x<11){
+     
+    System.debug('x 11 den küçüktür.x ='+x);
+   x++;
+}
