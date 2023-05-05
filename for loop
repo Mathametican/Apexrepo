@@ -1,0 +1,9 @@
+//data type ve variable  start;end;what you want(action)
+    for(Integer x=0; x<10; x++){
+        system.debug('x value : '+x);
+        if(x>5 && x<8){
+            system.debug('x value come from condition:'+x);
+                }else{
+                System.debug('The value of x is not bigger than 5 or small than 8.');  
+                }
+    }
