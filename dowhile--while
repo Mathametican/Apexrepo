@@ -1,0 +1,11 @@
+Integer x=0;
+do{
+    system.debug(x);
+    x++;
+}
+while(x<10);
+x=0;
+while(x<10){
+    system.debug(x);
+    x++;
+}
