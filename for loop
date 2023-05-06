@@ -17,3 +17,18 @@ for(Account acc:AccList){
     System.debug(acc.Phone);
  
     }
+
+List<Account> AccList=[SELECT Id, Name,Industry,Phone FROM Account];
+
+for(Account acc:AccList){
+    if(acc.Name.toUpperCase()=='EDGE COMMUNICATIONS'){
+        System.debug('*************');
+        System.debug(Acc.Name);
+        System.debug(Acc.Phone);
+        System.debug(Acc.Industry);
+        System.debug('*************');
+    }else{
+        System.debug(Acc.Name);
+    }
+ 
+    }
