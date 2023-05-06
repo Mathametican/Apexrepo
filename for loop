@@ -7,3 +7,13 @@
                 System.debug('The value of x is not bigger than 5 or small than 8.');  
                 }
     }
+
+    List<Account> AccList=[SELECT Id, Name,Industry,Phone FROM Account];
+
+for(Account acc:AccList){
+    System.debug(acc.Id);
+    System.debug(acc.Name);
+    System.debug(acc.Industry);
+    System.debug(acc.Phone);
+ 
+    }
