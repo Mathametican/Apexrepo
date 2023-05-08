@@ -1,0 +1,48 @@
+public class FirstApexClass {
+    
+    public static void welcome(){
+        System.debug('Hello Apex Class');
+    }
+
+
+    public static void welcome(String Name){
+        System.debug('Hello Apex Class I am '+Name);
+    }
+    
+    public static void welcome(String Name, String LastName){
+        System.debug('Hello Apex Class My Full Name is '+Name+' '+LastName);
+    
+    }
+    
+    public static void welcome(Integer age){
+        System.debug('Hello Apex Class I am '+age+' years old.');
+    }
+        
+        
+
+
+    Integer classNumber;
+    
+   
+    private static string fullName='Sergio Taco';
+    //SETTER METHODU
+    public static void setFullName(String newfullName){
+        fullName=newfullName;
+    }
+    //GETTER METHOD
+    public static string getFullName(){
+        return fullName;
+    }
+    
+   Public static void welcome1(){
+       
+       if(string.isNotBlank(fullName)){
+        System.debug('Hello Apex Class My Full Name is '+fullName);
+       }else{
+        System.debug('Hello Bro.....');
+       } 
+   }
+    Public static void welcome1(Integer age){
+        System.debug('Hello Apex Class I am '+age+' years old.');
+    }
+    
