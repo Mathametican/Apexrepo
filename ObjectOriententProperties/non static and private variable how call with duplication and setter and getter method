@@ -1,0 +1,23 @@
+public class workersWithNonStaticVariablesandprivate {
+    
+    public String name;
+    private Integer working_hours=0;// Bu variable boş kalırsa Attempt to de-reference a null object  uyarısı veriyor.
+
+    public Decimal income;
+    public Decimal expense;
+    
+    //working_hours private olduğu için nonstatic method da olduğu gibi worker1 adında workers tanımlayıp onun worker1.working_hours=15;
+    //ataması yapamıyoruz çünkü visible değil bu atamayı yapabilmek için bir addHours adında SETTER METHOD tanımlıyoruz ve atamayı bu METHOD 
+    //yardımı ile worker1.addHours(10);
+    
+    public void addHours(Integer howMany){
+        working_hours+=howmany;
+    }
+    //working_hours private olduğu için burada çağıramıyoruz görünür yapabilmek için 
+    //getter method oluşturacağız.
+    
+    public Integer hours(){
+        return working_hours;
+    }
+
+}
