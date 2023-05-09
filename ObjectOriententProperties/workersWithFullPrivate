@@ -1,0 +1,60 @@
+public String name;
+    private Integer working_hours=0;
+    private Decimal income=0;
+    private Decimal expense=0;
+    
+    //total leride PRIVATE yaptığımız için bunun içinde bir GETTER METHODU oluşturmalıyız.Static variable(properties) Static METHOD ile çagrılır.  
+    //system.debug(workersWithPrivateMethodsFull.gettotal_hours());   seklinde çagrılıyor.
+    private static Integer total_hours=0;
+    private static Integer total_income=0;
+    private static Integer total_expense=0;
+    
+    public static Integer getTotal_hours(){
+        return total_hours;
+    }
+    
+    public static Integer gettotal_income(){
+        return total_income;
+    }
+    
+    public static Integer gettotal_expense(){
+        return total_expense;
+    }
+    
+    
+    public workersWithPrivateMethodsFull(String workersName){
+        System.debug('Constructor Method is working');
+        name=workersName;   
+     }
+   
+    public void addHours(Integer howMany){
+        working_hours+=howmany;
+        total_hours+=howmany;
+    }
+    
+    public void addIncome(Integer eachIncome){
+        income+=eachIncome;
+        total_income+=eachIncome;
+    }
+    public void addExpense(Integer eachExpense){
+        expense+=eachExpense;
+        total_expense+=eachExpense;
+    }
+    
+   
+    public Integer hours(){
+        return working_hours;
+    }
+    
+    public Decimal incomes(){
+        return income;
+    }
+    
+    public Decimal expenses(){
+        return expense;
+    }
+
+
+
+}
+
