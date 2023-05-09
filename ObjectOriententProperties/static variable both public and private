@@ -1,0 +1,31 @@
+public class workersWithStaticVariables {
+   
+    public String name;
+    private Integer working_hours=0;
+
+    public Decimal income;
+    public Decimal expense;
+    
+    //properties  (Static)  // static variable'a workers worker1=New workers(); gibi non static method ile ulaşılmaz doğrudan 
+    //class ismi ile çağrılmalı      workers.total_hours;
+    //burada yapılan değişikler direkt static olanı etkiliyor yani total_hours'u
+    public /*private*/ static Integer total_hours=0;
+    
+    
+    //Burada private olan working_hours variable çagırabilmek için SETTER Method yapmıştık aynı method içinde PUBLIC STATIC  olan total_hours variable 
+    //her worker için girdiğimiz working_hours bilgilerini total_hours variable eklemesi için kod ekleyeceğiz total_hours+=howmany;
+    public void addHours(Integer howMany){
+        working_hours+=howmany;
+        total_hours+=howmany;
+    }
+   
+    
+    public Integer hours(){
+        return working_hours;
+    }
+    //burada PRIVATE ve STATIC olan total_hours variable çagırabilmek için STATIC GETTER method tanımlıyoruz.
+    //bunu workers.sumhours(); komutu ile çagıracagız.
+    public static Integer sumhours(){
+        return total_hours;
+    }
+}
