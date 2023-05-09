@@ -1,8 +1,8 @@
-public class workers {
+public class workersWithNonStaticVariables {
     // Static variable'ı çagıra biliyoruz ama nonStatic ise Variable does not exist hatası veriyor.
     
     //Non Static olan variable çağırmak için aynı Liste yada Object lerde yaptığımız gibi class' yeniden isimlendiriyoruz.
-    //workers worker1=New workers();   diyerek worker1 adında bir workers oluşturuyoruz.
+    //workers worker1=New workers();   diyerek worker1 adında bir workers oluşturuyoruz.Data type burada workers, worker1 bir variable
     //worker1.name='';
     //worker1.working_hours='';  ile atama yapabiliyoruz.
     public String name;
@@ -11,3 +11,4 @@ public class workers {
     public Decimal expense;
 
 }
+
