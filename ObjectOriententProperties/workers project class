@@ -72,12 +72,12 @@ public class workers {
         return working_hours;
     }
     
-    public Decimal income(){
+    public Decimal incomes(){
         return income;
     }
     
-    public Decimal expense(){
+    public Decimal expenses(){
         return expense;
     }
-}    
+} 
    
