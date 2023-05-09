@@ -1,0 +1,83 @@
+public class workers {
+
+    
+    public String name;
+    private Integer working_hours=0;
+    public Decimal income=0;
+    public Decimal expense=0;
+    
+    public static Integer total_hours=0;
+    public static Integer total_income=0;
+    public static Integer total_expense=0;
+    
+    
+   
+    public void addHours(Integer howMany){
+        working_hours+=howmany;
+        total_hours+=howmany;
+    }
+    
+    public void addIncome(Integer eachIncome){
+        income+=eachIncome;
+        total_income+=eachIncome;
+    }
+    public void addExpense(Integer eachExpense){
+        expense+=eachExpense;
+        total_expense+=eachExpense;
+    }
+    
+   
+    
+    public Integer hours(){
+        return working_hours;
+    }
+}  
+
+
+
+
+
+
+//TRUE workers class
+public class workers {
+
+    
+    public String name;
+    private Integer working_hours=0;
+    private Decimal income=0;
+    private Decimal expense=0;
+    
+    public static Integer total_hours=0;
+    public static Integer total_income=0;
+    public static Integer total_expense=0;
+    
+    
+   
+    public void addHours(Integer howMany){
+        working_hours+=howmany;
+        total_hours+=howmany;
+    }
+    
+    public void addIncome(Integer eachIncome){
+        income+=eachIncome;
+        total_income+=eachIncome;
+    }
+    public void addExpense(Integer eachExpense){
+        expense+=eachExpense;
+        total_expense+=eachExpense;
+    }
+    
+   
+    public Integer hours(){
+        return working_hours;
+    }
+    
+    public Decimal income(){
+        return income;
+    }
+    
+    public Decimal expense(){
+        return expense;
+    }
+}    
+   
