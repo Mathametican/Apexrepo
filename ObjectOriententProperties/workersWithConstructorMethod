@@ -1,0 +1,111 @@
+public class workersWithConstructorMethod {
+    
+    public String name;
+    private Integer working_hours=0;
+    private Decimal income=0;
+    private Decimal expense=0;
+    
+    public static Integer total_hours=0;
+    public static Integer total_income=0;
+    public static Integer total_expense=0;
+    
+    //Constructor Method Class ismi ile aynı oluyor.Bunun return type yok. Bu workers 
+    //worker1=New Workers(); 
+    //workers worker2=New Workers();   initialize işlemlerini yani workers'a atama işlemlerini gösteriyor eğer ben bunu çalıştırırsam iki kere
+    //çalışacak çünkü ben hem worker1 hemde worker2 yi initialize ettim. Constructor Method un çalışması için Kod kısmına yazmana gerek yok.
+    //
+    public workersWithConstructorMethod(){
+        System.debug('Constructor Method is working');
+    }
+   
+    public void addHours(Integer howMany){
+        working_hours+=howmany;
+        total_hours+=howmany;
+    }
+    
+    public void addIncome(Integer eachIncome){
+        income+=eachIncome;
+        total_income+=eachIncome;
+    }
+    public void addExpense(Integer eachExpense){
+        expense+=eachExpense;
+        total_expense+=eachExpense;
+    }
+    
+   
+    public Integer hours(){
+        return working_hours;
+    }
+    
+    public Decimal incomes(){
+        return income;
+    }
+    
+    public Decimal expenses(){
+        return expense;
+    }
+
+}
+
+
+// Daha Gelişmiş constructor Method
+
+public class workersWithConstructorMethod {
+    
+    public String name;
+    private Integer working_hours=0;
+    private Decimal income=0;
+    private Decimal expense=0;
+    
+    public static Integer total_hours=0;
+    public static Integer total_income=0;
+    public static Integer total_expense=0;
+    
+    //Constructor Method Class ismi ile aynı oluyor.Bunun return type yok. Bu workers 
+    //worker1=New Workers(); 
+    //workers worker2=New Workers();   initialize işlemlerini yani workers'a atama işlemlerini gösteriyor eğer ben bunu çalıştırırsam iki kere
+    //çalışacak çünkü ben hem worker1 hemde worker2 yi initialize ettim. Constructor Method un çalışması için Kod kısmına yazmana gerek yok.
+    //Boş olabileceği gibi()   içerisine variable da tanımlaya biliriz.
+    //
+    public workersWithConstructorMethod(String workersName){
+        System.debug('Constructor Method is working');
+        name=workersName;   // böylelikle workers ların name ni daha onları oluştururken yazabilirim yani
+                            // workers worker1=New workers();  
+                            // worker1.name='' ;
+                            // worker2.income=  ; yazmama gerek yok 
+                            // workers worker1=	New workers(name='Alex Victor', income=220);  desemde olur.
+     }
+   
+    public void addHours(Integer howMany){
+        working_hours+=howmany;
+        total_hours+=howmany;
+    }
+    
+    public void addIncome(Integer eachIncome){
+        income+=eachIncome;
+        total_income+=eachIncome;
+    }
+    public void addExpense(Integer eachExpense){
+        expense+=eachExpense;
+        total_expense+=eachExpense;
+    }
+    
+   
+    public Integer hours(){
+        return working_hours;
+    }
+    
+    public Decimal incomes(){
+        return income;
+    }
+    
+    public Decimal expenses(){
+        return expense;
+    }
+
+}
+
+
+
+
+
