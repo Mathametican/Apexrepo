@@ -1,0 +1,84 @@
+public class workersWithInnerClass {
+    
+    
+    //INNER CLASS class içinde başka bir CLASS oluturacağız.eger public yapmazsak sadece class içinde erişilebilir. 
+    //Eger public yaparsak kod kısmından da bu inner class'a erişilebilir.
+    //iç içe totalda en fazla iki class olabilir. Bir tane OUTER class bir tanede INNER class var.ancak OUTER CLASS ın içinde INNER CLASS ın dışında
+    //başka INNER CLASS lar tanımlanabilir.
+    //
+    //INNER CLASS kod kısmında çağırabilmek için önce OuterClass.InnerClass variableName = New OuterClass.InnerClass();
+    //workers.course worker1Course=New workers.course();    şeklinde çagırabiliyoruz.
+    //worker1Course.name='Salesforce';     şeklinde oluşturduğunuz inner class variabla atama yapabiliyoruz.
+    
+    public class course{
+        //course class properties
+        
+        public String name;
+        public Integer Session;
+        public Integer studentNum;
+        
+        //course class ın Metodu   Aynı şekilde INNER Class içerisinde Constructor Method tanımlaya biliyoruz.
+        //workersWithInnerClass.course worker1Course=New workersWithInnerClass.course('salesforce APEX');
+        //System.debug(worker1Course);     şekilinde atama yapabiliyoruz.   INNER CLASS içerisinde static kullanılmıyor TOP Class da kullanılabiliyor.
+        
+        public course(String courseName){
+            name=courseName;
+        }
+        
+        
+        
+    }
+    
+    public String name;
+    private Integer working_hours=0;
+    private Decimal income=0;
+    private Decimal expense=0;
+    
+    public static Integer total_hours=0;
+    public static Integer total_income=0;
+    public static Integer total_expense=0;
+    
+    
+    public workersWithInnerClass(String workersName){
+        System.debug('Constructor Method is working');
+        name=workersName;   
+     }
+   
+    public void addHours(Integer howMany){
+        working_hours+=howmany;
+        total_hours+=howmany;
+    }
+    
+    public void addIncome(Integer eachIncome){
+        income+=eachIncome;
+        total_income+=eachIncome;
+    }
+    public void addExpense(Integer eachExpense){
+        expense+=eachExpense;
+        total_expense+=eachExpense;
+    }
+    
+   
+    public Integer hours(){
+        return working_hours;
+    }
+    
+    public Decimal incomes(){
+        return income;
+    }
+    
+    public Decimal expenses(){
+        return expense;
+    }
+
+
+
+}
+
+/*List<workersWithInnerClass> multiworkers=New List<workersWithInnerClass>();
+multiworkers.add(worker1);
+multiworkers.add(worker2);
+
+System.debug(multiworkers);     
+yaparak oluşturduğumuz class list sini yapabiliyoruz. Json.viewer ilede bunu okuyabiliyoruz.
+ */
