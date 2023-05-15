@@ -1,0 +1,20 @@
+public class LeadApex {
+    
+    public static void getLead(){
+        
+        List<Lead> multiLead=[SELECT Id, FirstName, LastName, Title, Phone, Email, Company FROM Lead];
+        
+        for(Lead singleLead:multiLead){
+            System.debug('******************');
+            System.debug(singleLead.FirstName);
+            System.debug(singleLead.LastName);
+            System.debug(singleLead.Phone);
+            System.debug(singleLead.Email);
+            System.debug(singleLead.Company);
+            System.debug('*******************');
+        }
+        /*for(Integer eleman=0; eleman<multiLead.size(); eleman ++){
+            System.debug(multiLead.get(eleman).firstName);
+        } */
+        }
+}
