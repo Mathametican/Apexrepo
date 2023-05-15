@@ -18,3 +18,52 @@ public class LeadApex {
         } */
         }
 }
+
+
+public class LeadApex {
+    
+    public static void getLead(String state){
+        
+        List<Lead> multiLead=[SELECT Id, LastName, FirstName, Title, Company, Phone, Email, State FROM Lead WHERE state=:state];
+        
+        for(Lead singleLead:multiLead){
+            System.debug('******************');
+            System.debug(singleLead.FirstName);
+            System.debug(singleLead.LastName);
+            System.debug(singleLead.Phone);
+            System.debug(singleLead.Email);
+            System.debug(singleLead.Company);
+            System.debug(singleLead.State);
+            System.debug('*******************');
+        }
+        /*for(Integer eleman=0; eleman<multiLead.size(); eleman ++){
+            System.debug(multiLead.get(eleman).firstName);
+        } */
+        }
+}
+
+
+
+public class LeadApex {
+    
+    public static void getLead(String state, String sirket){
+        String sirketName= '%'+sirket+'%';
+        
+        List<Lead> multiLead=[SELECT Id, LastName, FirstName, Title, Company, Phone, Email, State FROM Lead WHERE  Company LIKE :sirketName OR State=:state ];
+        
+        for(Lead singleLead:multiLead){
+            System.debug('******************');
+            System.debug(singleLead.FirstName);
+            System.debug(singleLead.LastName);
+            System.debug(singleLead.Phone);
+            System.debug(singleLead.Email);
+            System.debug(singleLead.Company);
+            System.debug(singleLead.State);
+            System.debug('*******************');
+        }
+        /*for(Integer eleman=0; eleman<multiLead.size(); eleman ++){
+            System.debug(multiLead.get(eleman).firstName);
+        } */
+        }
+}
+
