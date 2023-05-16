@@ -1,0 +1,32 @@
+SELECT Id, Account.Name, Name, Amount, CloseDate, IsWon, Type, IsClosed, LeadSource FROM Opportunity WHERE Account.Name='GenePoint'
+
+SELECT COUNT(Id) FROM Opportunity   
+
+-- COUNT Tek satır olarak döndüğü için Hep AGGREGATE FUNCTION olarak  alıyoruz--
+
+SELECT COUNT(Id),COUNT(Type), COUNT(Amount) FROM Opportunity 
+
+SELECT COUNT(Id),COUNT(Amount), MIN(Amount),MAX(Amount), AVG(Amount),SUM(Amount) FROM Opportunity 
+
+SELECT COUNT(Id),COUNT(Amount), MIN(Amount),MAX(Amount), AVG(Amount),SUM(Amount) FROM Opportunity WHERE StageName='Closed Won'
+
+SELECT COUNT(Id),COUNT(Amount), MIN(Amount),MAX(Amount), AVG(Amount),SUM(Amount) FROM Opportunity WHERE CloseDate=NEXT_WEEK
+
+SELECT Id, Name, Amount, CloseDate FROM Opportunity WHERE CloseDate=NEXT_N_DAYS:15
+
+SELECT Id, Name, Amount, Account.Name, CloseDate FROM Opportunity WHERE CloseDate=LAST_N_DAYS:15
+
+SELECT Id, Name, Amount, Account.Name, CloseDate FROM Opportunity WHERE CloseDate IN (LAST_N_DAYS:90, NEXT_N_DAYS:90)
+
+SELECT Id, Name, Amount, Account.Name, CloseDate FROM Opportunity WHERE CloseDate IN (LAST_N_DAYS:90, NEXT_N_DAYS:90) AND Account.Name LIKE '%Gene%'
+
+SELECT Id, Name, Amount, Account.Name, CloseDate,StageName FROM Opportunity WHERE ( CloseDate IN (LAST_N_DAYS:90, NEXT_N_DAYS:90) AND Account.Name LIKE '%Gene%') OR StageName='Closed Won' 
+
+SELECT COUNT_DISTINCT(Account.Name) FROM Contact
+
+SELECT COUNT_DISTINCT(BillingCity) FROM Account
+
+--Developer Console ile Query Editor ile bilgiler çağrıla biliyor ve bilgiler Buradan da değiştirilebiliyor bu bilgiler Salesforce un ana sayfasınadA yANSIYOR.
+
+
+
