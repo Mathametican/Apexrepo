@@ -1,0 +1,28 @@
+SELECT Account.Name, Id, FirstName, LastName, Phone, Email, Title, Department FROM Contact
+
+List<Contact> getContact=[SELECT Account.Name, 
+                    Id, FirstName, LastName, Phone, Email, Title, Department 
+                    FROM Contact];
+for(Contact loopContact:getContact){
+    System.debug(loopContact.FirstName);
+    System.debug(loopContact.LastName);
+    System.debug(loopContact.Account.Name);
+}
+
+
+--FOR CUSTOM OBJECT   CHİLD TO PARENT QUERY--
+--In here --c represant custom relationship  --r represant relationship
+SELECT Course__r.Name, Id, Name, CreatedDate, Course__c FROM Lesson__c
+
+-- A cue for also we can create an spreetsheet(excel) directly Cutom Object via OBJECT MANAGER
+
+List<Lesson__c> getLessons=[SELECT Course__r.Name, 
+                          Id, Name, CreatedDate, Course__c 
+                          FROM Lesson__c];
+
+for(Lesson__c loopLessons:getLessons){
+    System.debug(loopLessons.Course__r.Name);
+    System.debug(loopLessons.Course__c);
+    System.debug(loopLessons.Name);
+    System.debug(loopLessons.CreatedDate);
+}
