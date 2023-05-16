@@ -1,0 +1,53 @@
+--PARENT TO CHILD QUERY FOR CUSTOM OBJECT--
+
+SELECT Id, Name, CreatedDate,(SELECT Id, Name, CreatedDate FROM Lessons__r) FROM Course__c
+--Lessons__r olmalı Child 'ı Parent Query'nin içine () sorgu yaparak getiriyoruz.
+
+List<Course__c> multiCourse=[SELECT Id, Name, CreatedDate,(SELECT Id, 
+                                                         Name, CreatedDate FROM Lessons__r) 
+                                                         FROM Course__c];
+for(Course__c singleCourse:multiCourse){
+    System.debug(singleCourse.Name);
+    System.debug(singleCourse.Lessons__r);
+}
+
+--COURSE içindeki LESSONLARI TOPLU OLARAK DEĞİL TEK TEK GETİRMEK İÇİN FOR İÇİN DE FOR DÖNGÜSÜ TANIMLADIK
+
+List<Course__c> multiCourse=[SELECT Id, Name, CreatedDate,
+                            (SELECT Id,Name, CreatedDate FROM Lessons__r) 
+                            FROM Course__c];
+for(Course__c singleCourse:multiCourse){
+    System.debug('🌟 '+singleCourse.Name);
+    
+    for(Lesson__c singleLesson:singleCourse.Lessons__r){
+    System.debug(singleLesson.Name);
+}
+}   
+
+
+--PARENT TO CHİLD QUERY FOR STANDARD OBJECT--
+
+SELECT Id, Name, Type, Phone, Industry, AnnualRevenue,(SELECT Id, Name, Phone, Email, Department, Title FROM Contacts) FROM Account
+
+SELECT Id, Name, Type, Phone, Industry, AnnualRevenue,(SELECT Id, Name, StageName, Amount, IsWon FROM Opportunities), (SELECT Id, Name, Phone, Email, Department, Title FROM Contacts)FROM Account
+
+
+List<Account> multiAccount=[SELECT Id, 
+             Name, Type, Phone, Industry, AnnualRevenue,
+             (SELECT Id, Name, StageName, Amount, IsWon, CloseDate 
+             FROM Opportunities), 
+             (SELECT Id, Name, Phone, Email, Department, Title
+             FROM Contacts)
+             FROM Account];
+for(Account singleAccount:multiAccount){
+    System.debug('🏦 :'+singleAccount.Name+' ☎️ :'+singleAccount.Phone );
+    
+    for(Contact singleContact:singleAccount.Contacts){
+        System.debug('🧑🏻‍💻  '+singleContact.Name);
+    }
+    
+    for(Opportunity singleOpp:singleAccount.Opportunities){
+        System.debug('💰 : '+singleOpp.Amount+'📅 : '+singleOpp.CloseDate);
+    }
+  
+}
