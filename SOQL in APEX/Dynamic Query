@@ -1,0 +1,17 @@
+public class OpportunityHandler1 {
+    
+    
+    public static List<Opportunity> getNDays(Integer n){
+        
+    String Query='SELECT Id, Name, ';
+    Query+='Account.Name, Amount, CloseDate ';
+    Query+='FROM Opportunity WHERE CloseDate=LAST_N_DAYS:'+n;
+
+        //Dynamic Query Bu ve Güveli Değil Hacklenebilir.
+        //DataBase.QueryLocator  //50 Million
+        
+    List<Opportunity> multiOppDataBase=Database.query(Query);
+        
+    System.debug(multiOppDataBase);
+     
+    return multiOppDataBase;

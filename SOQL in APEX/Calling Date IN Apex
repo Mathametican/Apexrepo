@@ -1,0 +1,17 @@
+public class OpportunityHandler {
+    
+    public static List<Opportunity> getNDays(Integer Ndays){
+        
+        Date startDate=Date.today().addDays(Ndays);
+        System.debug(startDate);
+        
+        List<Opportunity> multiOpp=[SELECT Id, Name, Account.Name, Amount, CloseDate 
+                  FROM Opportunity WHERE CloseDate >= :startDate];
+       
+        System.debug(multiOpp);
+        
+        return multiOpp;
+        
+    }
+
+}
