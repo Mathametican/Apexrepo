@@ -1,0 +1,19 @@
+Account a = New Account(Name='xxx');
+insert a;
+
+System.assertEquals(null,[SELECT AccountNumber From Account WHERE Id=:a.Id].AccountNumber);
+
+//Create SavePoint while AccountNumber is null
+//Burada Save Point Ekleyerek ileride kodda bir hata yaparsak bizi tekrardan 
+//bu noktaya getirmesini sağlıyoruz.
+
+Savepoint sp=Database.setSavepoint();
+
+//Change the AccountNumber
+a.AccountNumber='123';
+update a;
+System.assertEquals('123',[SELECT AccountNumber FROM Account WHERE Id=:a.Id].AccountNumber);
+
+//Rollback to the previous null value
+Database.rollback(sp);
+System.assertEquals(null,[SELECT AccountNumber FROM Account WHERE Id=:a.Id].AccountNumber);

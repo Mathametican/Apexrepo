@@ -15,3 +15,35 @@ public class OpportunityHandler1 {
     System.debug(multiOppDataBase);
      
     return multiOppDataBase;
+
+    
+    //SOQL
+
+    String mytestString='Acme 1';
+    List<sObject> sobjList=Database.query('SELECT Id FROM Account WHERE Name =:mytestString');
+
+    //SOQL INJECTION
+
+    String query = 'SELECT Id, Name, Title FROM Contact';
+    String testtualTitle='Aca';
+    String whereClause='Title like \'%'+testtualTitle+'%\' '; //This will cause injection
+    
+    List<Contact> whereclause_records=database.query(query+' where '+whereClause);
+    System.debug(whereclause_records);
+    //'%' gösterim hacklenmeye müsait hale getiriyor sistemi bunun için dikkatli olamak
+    //gerekiyor Aşagıdaki yazım bunu için daha UYGUN olur.
+
+
+    String query ='SELECT Id, Name, Title FROM Contact';
+String texttualTitle='Aca';
+String whereClause='Title like \'%'+String.escapeSingleQuotes(texttualTitle)+'%\' ';
+List<Contact> where_clause_records=database.query(query+' where '+whereClause);
+
+System.Debug(where_clause_records);
+//String.escapeSingleQuotes()
+//yazarak Injection Hacklemelerden sistemi koruyabiliriz.
+
+
+
+
+
