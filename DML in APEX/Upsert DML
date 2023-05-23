@@ -1,0 +1,10 @@
+String AccName='Triforcia';
+Account singAcc=[SELECT Id, Name FROM Account WHERE Name=:AccName];
+
+System.debug(singAcc);
+singAcc.Name=singAcc.Name.toLowerCase();
+singAcc.Phone='0312 456 25 36';
+
+Upsert singAcc;    //Upsert singAcc;    ilede bu işlem yapılabilir
+
+System.debug(singAcc);

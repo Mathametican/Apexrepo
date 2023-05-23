@@ -1,0 +1,36 @@
+Lead singleLead = New Lead();
+singleLead.FirstName='Alex';
+singleLead.LastName='APEX1';
+singleLead.Company='ClarusWay';
+singleLead.status='Working - Contacted';
+
+insert singleLead;
+
+
+//Make relationship with Account Contact Opportunity---
+
+
+
+Account singAcc=New Account();
+
+singAcc.Name='Triforcia';
+
+Insert singAcc;
+
+Contact singCont=New Contact();
+
+singCont.FirstName='Muffy';
+singCont.LastName='Crosswire';
+singCont.AccountId=singAcc.Id;
+
+Insert singCont;
+
+Opportunity singOpp= New Opportunity();
+
+singOpp.Name='LWC Lessons';
+singOpp.StageName='Qualification';
+singOpp.CloseDate=Date.newInstance(2023, 7, 13);
+singOpp.AccountId=singAcc.Id;
+singOpp.ContactId=singCont.Id;
+
+Insert singOpp;

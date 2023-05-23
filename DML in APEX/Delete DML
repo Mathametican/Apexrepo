@@ -1,0 +1,4 @@
+String AccName='%triforcia%';
+Account singAcc=[SELECT Id, Name FROM Account WHERE Name LIKE :AccName LIMIT 1];
+
+Delete singAcc;

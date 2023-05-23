@@ -1,0 +1,10 @@
+String AccName='SalesForce';
+Account singAcc=[SELECT Id, Name FROM Account WHERE Name=:AccName];
+
+System.debug(singAcc);
+singAcc.Name=singAcc.Name.toUpperCase();
+singAcc.Phone='0345 456 67 89';
+
+Update singAcc;    //Upsert singAcc;    ilede bu işlem yapılabilir
+
+System.debug(singAcc);
