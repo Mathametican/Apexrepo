@@ -55,3 +55,33 @@ for(Database.SaveResult sr:srList){
  * 20:38:41:217 USER_DEBUG [17]|DEBUG|REQUIRED_FIELD_MISSING : Required fields are missing: [Name]
  * 20:38:41:217 USER_DEBUG [18]|DEBUG|Account fields that affected this error: (Name)
  */
+
+
+ List<Account> delAcc=[SELECT Name,Id FROM Account WHERE Name LIKE '%Bulk%'];
+Delete delAcc;  //Database.delete(delAcc,true);
+
+//Aynı şekilde silinmeyenlerin hatasını almak için 
+
+List<Account> delAcc=[SELECT Name,Id FROM Account WHERE Name LIKE '%Bulk%'];
+Delete delAcc;  //Database.delete(delAcc,true);
+
+//Aynı şekilde silinmeyenlerin hatasını almak için 
+
+List<Account> delAcc=[SELECT Name,Id FROM Account WHERE Name LIKE '%Bulk%'];
+
+Database.SaveResult[] srList=Database.delete(accList,false);
+
+for(Database.SaveResult sr:srList){
+    
+    if(sr.isSuccess()){
+        
+    System.debug('Successfully deleted account Account ID: '+ sr.getId());
+    }
+    else{
+        for(Database.Error err:sr.getErrors()){
+        System.debug('The following error has occured.');
+        System.debug(err.getStatusCode() + ' : ' + err.getMessage());
+        System.debug('Account fields that affected this error: '+ err.getFields());
+        }
+    }
+}

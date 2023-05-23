@@ -1,0 +1,53 @@
+
+System.debug(singAcc);
+
+Opportunity singOpp=New Opportunity();
+singOpp.Name='APEX-Triforcia New Opportunity';
+singOpp.StageName='Needs Analysis';
+singOpp.CloseDate=date.TODAY()+15;
+singOpp.AccountId=singAcc.Id;
+singOpp.Amount=30000;
+
+Insert singOpp;
+
+System.debug(singOpp);
+
+List<Account> delAcc= [SELECT Id, Name FROM Account WHERE Name LIKE '%Bulk%'];
+delete delAcc;
+
+//DATABASE OPERATOR 
+
+List<Account> multiAcc = New List<Account>();
+
+for(Integer num=1; num<=300; num++){
+    Account singleAcc= New Account();
+    singleAcc.Name='Bulk Acc - Apex '+num;
+    multiAcc.add(singleAcc);
+}
+Account singleAccError = New Account();
+singleAccError.phone='234234234234';
+
+multiAcc.add(singleAccError);
+
+//insert multiAcc;  // Database.insert(multiAcc,true);   //Bu ikisi Aynı
+
+//Hatalı olan dışında diğerlerini Insert ediyor.
+
+Database.SaveResult[] srList = Database.insert(multiAcc,false); 
+
+for(Database.SaveResult sr:srList){
+    if(sr.isSuccess()){
+    System.debug('Successfully inserted account.  Account ID: '+sr.getId());
+    }
+    else{
+        for(Database.Error err: sr.getErrors()){
+    System.debug('The following error has occured.');
+    System.debug(err.getStatusCode() + ' : '+ err.getMessage());
+    System.debug('Account fields that affected this error: '+err.getFields());
+    }
+    }
+}
+
+
+List<Account> delAcc=[SELECT Name,Id FROM Account WHERE Name LIKE '%Bulk%'];
+Delete delAcc;  //Database.delete(delAcc,true);
