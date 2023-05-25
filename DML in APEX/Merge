@@ -1,0 +1,39 @@
+Account CW = New Account();
+CW.Name='APEX CW';
+
+insert CW;
+
+List<Opportunity> multiOpp=New List<Opportunity>();
+List<Contact> multiCont=New List<Contact>();
+
+for(Integer num=1; num<=3; num++){
+    Contact Cont=New Contact();
+    Cont.FirstName='Apex CW ';
+    Cont.LastName='Contact'+num;
+    Cont.AccountId=CW.Id;
+    
+    multiCont.add(Cont);
+    
+    Opportunity Opp=New Opportunity();
+    Opp.Name=CW.Name+' Opportunity '+num;
+    Opp.CloseDate=Date.newInstance(2023, 4, 23);
+    Opp.StageName='Qualification';
+    Opp.AccountId=CW.Id;
+    
+    multiOpp.add(Opp);
+    
+}
+Insert multiCont;
+Insert multiOpp;
+
+
+Account triforcia =[SELECT Id, Name FROM Account WHERE Name='Apex-Triforcia'];
+
+Account CW =[SELECT Id,Name FROM Account WHERE Name='APEX CW'];
+
+merge CW triforcia;
+
+
+//Burada triforcia  yı CW ye birleştiriyor ve triforcia yı siliyor  
+//Varsa triforcianın Contact ve Opportunity lerini CW in Contact ve Opportunity lerine ekliyor.
+//Aynı anda 3 object birleştirilebilir.
