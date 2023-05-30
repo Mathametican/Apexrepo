@@ -23,3 +23,29 @@ for(Opportunity loopOpp:CW.Opportunities){
 //CW.Contacts ile listede oluşturabiliyoruz.
 List<Contact> ApexCWContactList=CW.Contacts;
 System.debug(ApexCWContactList);
+
+Sobject CWSobj =[Select Id, Name,
+            (SELECT Id, Name, Phone, Email FROM Contacts),
+            (SELECT Id,Name, Amount,CloseDate, StageName FROM Opportunities)
+            FROM Account WHERE Name ='APEX CW'];
+
+System.debug('Account Details : ');
+System.debug(CWSobj.id);
+System.debug(CWSobj.get('Name'));
+System.debug('Related Contacts');  //birden fazla Contacts ve Opportunities olduğu için bunları 
+System.debug(CWSobj.getSobjects('Contacts'));         // ayrı ayrı for döngüsünde çagıracağız.
+
+for(Contact loopCont:CWSobj.getSobjects('Contacts') ){
+    System.debug(loopCont.Name);
+}
+
+System.debug('Related Opportunities');
+System.debug(CWSobj.getSobjects('Opportunities'));
+for(Opportunity loopOpp:CWSobj.getSobjects('Opportunities')){
+    System.debug(loopOpp.Name);
+    System.debug(loopOpp.CloseDate);
+}
+
+//CW.Contacts ile listede oluşturabiliyoruz.
+List<Contact> ApexCWContacts=CWSobj.getSobjects('Contacts');
+System.debug(ApexCWContacts);
