@@ -1,0 +1,18 @@
+System.debug(singleContact.Name);
+System.debug(singleContact.Phone);
+System.debug(singleContact.Email);
+System.debug(singleContact.Account.Name);
+System.debug(singleContact.Account.Phone);
+
+Sobject singleContSobj=[SELECT Id,Name, Phone, Email,Account.Name, Account.Phone 
+                      FROM Contact WHERE Name ='John Bond' LIMIT 1];   
+System.debug(singleContSobj);
+System.debug(singleContSobj.id);
+System.debug(singleContSobj.get('Name'));
+System.debug(singleContSobj.get('Phone'));
+System.debug(singleContSobj.get('Email'));
+System.debug(singleContSobj.getSobject('Account').get('Name'));
+System.debug(singleContSobj.getSobject('Account').get('Phone'));
+
+//Sobject ile child to Parent yapacaksak
+// singleContSobj.getSobject('Account').get('Name');

@@ -1,0 +1,25 @@
+Account CW =[Select Id, Name,
+            (SELECT Id, Name, Phone, Email FROM Contacts),
+            (SELECT Id,Name, Amount,CloseDate, StageName FROM Opportunities)
+            FROM Account WHERE Name ='APEX CW'];
+
+System.debug('Account Details : ');
+System.debug(CW.id);
+System.debug(CW.Name);
+System.debug('Related Contacts');  //birden fazla Contacts ve Opportunities olduğu için bunları 
+System.debug(CW.Contacts);         // ayrı ayrı for döngüsünde çagıracağız.
+for(Contact loopCont: CW.contacts){
+    System.debug(loopCont.Name);
+}
+
+System.debug('Related Opportunities');
+System.debug(CW.Opportunities);
+for(Opportunity loopOpp:CW.Opportunities){
+    System.debug(loopOpp.Name);
+    System.debug(loopOpp.CloseDate);
+}
+
+
+//CW.Contacts ile listede oluşturabiliyoruz.
+List<Contact> ApexCWContactList=CW.Contacts;
+System.debug(ApexCWContactList);
