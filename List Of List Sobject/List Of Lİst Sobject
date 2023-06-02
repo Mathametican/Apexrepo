@@ -1,0 +1,14 @@
+//List<List<List<String>>>>  Bu Şekilde içi içe List of list of lİst oluşturabiliriz.
+//List<List<Sobject>>  list of list of Sobject
+List<List<Sobject>> searchResult=[FIND 'united*' IN ALL FIELDS RETURNING
+                                Account (Id,Name,Industry),
+                                Contact (Id, Name,AccountId),
+                                Opportunity (Id,Name,CloseDate,StageName,AccountId) ];
+
+for(List<Sobject> listOfSobject:searchResult){
+    System.debug(listOfSobject);
+    
+    for(Sobject sobj:listOfSobject){
+        System.debug(sobj);
+    }
+}
