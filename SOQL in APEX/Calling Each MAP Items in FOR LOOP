@@ -1,0 +1,18 @@
+//Calling in FOR LOOP MAP list 
+Map<Id,Account> mapAccount = New Map<Id,Account>(
+                            [SELECT Id, Name, ParentId, Phone, 
+                            Fax, AccountNumber, Website, Industry,
+                            AnnualRevenue, NumberOfEmployees 
+                            FROM Account WHERE ParentId =Null]);
+
+
+// Calling each Account in MAP List with FOR LOOP
+Set<Id> accountIds=mapAccount.keyset();
+
+for (Id accId:accountIds){
+    Account singleAccount=mapAccount.get(accId);
+    System.debug(singleAccount.Name);
+    System.debug(singleAccount.ParentId);
+    System.debug(singleAccount.Phone);
+    System.debug(singleAccount.Industry);
+}
