@@ -1,0 +1,22 @@
+Map<Id,Account> mapAcc = New Map<Id,Account>(
+                            [SELECT Id, Name, ParentId, Phone, 
+                            Fax, AccountNumber, Website, Industry,
+                            AnnualRevenue, NumberOfEmployees 
+                            FROM Account WHERE ParentId =Null]);
+
+//Map de ID ile değil Name ile sorgulama yapacaksak yeni bir MAP oluşturacağız STRING
+
+Map<string,Account> nametoAccMap=New Map<String,Account>();
+
+Set<Id> accountIds=mapAcc.keyset();
+//Burada Id ile oluşturulan Map deki her bir item ı Name e göre yeniden 
+//Yukarda oluşturduğumuz MAP in içine yerleştirdik.
+for (Id accId:accountIds){
+    Account singleAcc=mapAcc.get(accId);
+    nametoAccMap.put(singleAcc.Name,singleAcc);
+    
+}
+//Burada da Name ile oluşturduğumuz MAP den birtane Item çagırdık ve içerisindeki 
+//verileri görünür kıldık.
+Account snglAcc= nametoAccMap.get('Clarusway');
+System.debug(snglAcc.Phone);
