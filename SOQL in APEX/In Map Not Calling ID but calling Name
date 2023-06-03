@@ -20,3 +20,9 @@ for (Id accId:accountIds){
 //verileri görünür kıldık.
 Account snglAcc= nametoAccMap.get('Clarusway');
 System.debug(snglAcc.Phone);
+
+
+//Set<Id> accountIds=mapAcc.keyset();   buradaki accountIds başka bir yerde de kullandık o yüzden for döngüsü içinde 
+//yazılmıyor.
+Map<Id,Contact> mapContact= New Map<Id,Contact>([SELECT Id,Name 
+                            FROM Contact AccountId=:accountIds]);
