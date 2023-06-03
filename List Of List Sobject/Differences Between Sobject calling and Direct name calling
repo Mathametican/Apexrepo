@@ -1,0 +1,44 @@
+List<List<Sobject>> searchResult=[FIND 'edge' IN ALL FIELDS RETURNING
+                                 Account(Id,Name),
+                                 Contact(Id,Name,AccountId),
+                                 Opportunity(Id,Name,StageName,CloseDate,Amount),
+                                 Case(Id,Reason,Origin)];
+
+List<Sobject> accountList= searchResult.get(0);
+System.debug(accountList);
+
+for(Sobject sobj:accountList){
+    System.debug(sobj.get('Name'));
+}
+
+List<Account> accList=searchResult.get(0);
+
+for(Account acc:accList){
+    System.debug(acc.Name);
+}
+
+List<Contact> contList=searchResult.get(1);
+for(Contact cont:contList){
+    System.debug(cont.Name);
+}
+
+List<Opportunity> oppList=searchResult.get(2);
+for(Opportunity opp:oppList){
+    System.debug(opp.Name+' *****  '+opp.StageName+'****'+opp.Amount);
+}
+List<Case> caseList=searchResult.get(3);
+for(Case cas:caseList){
+    System.debug(cas.Id);
+    
+}
+
+
+List<List<Sobject>> searchResult=[FIND '@%.com' IN ALL FIELDS RETURNING
+                                 Account(Id,Name),
+                                 Contact(Id,Name),
+                                 Opportunity(Id,Name,StageName,CloseDate,Amount)];
+
+System.debug(searchResult);
+
+
+
