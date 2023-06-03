@@ -1,0 +1,21 @@
+/*List<Account> multiAcc=[SELECT Id, Name, ParentId, Phone, 
+                       Fax, AccountNumber, Website, Industry,
+                       AnnualRevenue, NumberOfEmployees 
+                       FROM Account WHERE ParentId =Null];*/
+
+// 001Do00000Db804IAB  Pyramid Construction Inc. 
+
+Map<Id,Account> mapAccount = New Map<Id,Account>(
+                            [SELECT Id, Name, ParentId, Phone, 
+                            Fax, AccountNumber, Website, Industry,
+                            AnnualRevenue, NumberOfEmployees 
+                            FROM Account WHERE ParentId =Null]);
+
+Account singleAccount= mapAccount.get('001Do00000Db804IAB');
+System.debug(singleAccount.Name);
+System.debug(singleAccount.ParentId);
+System.debug(singleAccount.Phone);
+System.debug(singleAccount.Industry);
+
+
+
