@@ -1,0 +1,23 @@
+
+//Bu Apex Class Kısmı
+
+public List<String> getPickListValuesIntoList(){
+       List<String> pickListValuesList= new List<String>();
+		Schema.DescribeFieldResult fieldResult = ObjectApiName.FieldApiName.getDescribe();
+		List<Schema.PicklistEntry> ple = fieldResult.getPicklistValues();
+		for( Schema.PicklistEntry pickListVal : ple){
+			pickListValuesList.add(pickListVal.getLabel());
+		}     
+		return pickListValuesList;
+    }
+
+    //Buda Code Enter Kısmından Çagırmak
+
+    
+       List<String> pickListValuesList= new List<String>();
+		Schema.DescribeFieldResult fieldResult = Income__c.Income_Source__c.getDescribe();
+		List<Schema.PicklistEntry> ple = fieldResult.getPicklistValues();
+		for( Schema.PicklistEntry pickListVal : ple){
+			pickListValuesList.add(pickListVal.getLabel());
+		}     
+		system.debug(pickListValuesList);
