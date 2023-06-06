@@ -1,0 +1,41 @@
+List<Budget__c> multiBudget = New List<Budget__c>();
+
+List<String> aylar=New List<String>{
+    'January','February','March','April','May','June',
+    'July','August','September','Octeber','November','December'
+};
+System.debug(aylar);
+
+for(integer x=1; x<12;x++){
+    Budget__c singleBudget=New Budget__c();
+    singleBudget.name='2022 '+aylar.get(x)+' Budget';
+    
+    multiBudget.add(singleBudget);
+}
+System.debug(multiBudget);
+
+Insert multiBudget;
+
+List<Income__c> multiIncome=New List<Income__c>();
+List<Expense__c> multiExpense=New List<Expense__c>();
+
+for(Budget__c mb:multiBudget){
+    Income__c singleIncome=New Income__c();
+    singleIncome.Budget__c=mb.ID;
+    singleIncome.Income_Source__c='Wage';
+    singleIncome.Value__c=2500;
+    
+    Expense__c singleExpense =New Expense__c();
+    singleExpense.Budget__c=mb.ID;
+    singleExpense.Expense_Source__c='Credit Card';
+    singleExpense.Value__c=1250;
+    
+    multiIncome.add(singleIncome);
+    multiExpense.add(singleExpense);
+}
+
+System.debug(multiIncome);
+System.debug(multiExpense);
+
+Insert multiIncome;
+Insert multiExpense;
