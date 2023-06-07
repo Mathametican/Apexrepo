@@ -1,0 +1,15 @@
+List<Income__c> multiIncome=[SELECT Id, Name, Budget__r.Name, Income_Source__c, Value__c 
+                            FROM Income__c WHERE Budget__r.Name LIKE '%2022%'];
+List<Expense__c> multiExpense=[SELECT Id, Name, Budget__r.Name, Expense_Source__c, Value__c 
+                            FROM Expense__c WHERE Budget__r.Name LIKE '%2022%'];
+
+for(Income__c insg:multiIncome){
+    insg.Value__c=5300;
+}
+
+for(Expense__c ex:multiExpense){
+    ex.Value__c=3400;
+}
+
+UPDATE multiIncome;
+UPDATE multiExpense;
