@@ -1,0 +1,10 @@
+String AccName='%triforcia%';
+Account singAcc=[SELECT Id, Name FROM Account WHERE Name LIKE :AccName LIMIT 1];
+
+Delete singAcc;
+
+List<Budget__c> multiBudget=[SELECT Id, Name 
+                            FROM Budget__c WHERE Name LIKE '%2022%'];
+
+DELETE multiBudget;
+//Master detail ilişki varken parent object silinirse child object te silinir.
