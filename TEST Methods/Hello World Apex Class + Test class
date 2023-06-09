@@ -1,0 +1,36 @@
+public class HelloApex {
+    
+    public static String msg(String msg){
+        
+        System.debug(msg);
+        
+       return msg.toUpperCase()+' Clarusway Salesforce Cohort-3';
+        
+    }
+
+}
+
+
+
+@isTest
+public class HelloApexTest {
+    
+    @isTest// Positive Test
+    public static void helloTest1(){
+    
+    String actual=HelloApex.msg('Hello World');
+    
+    System.assertEquals('HELLO WORLD Clarusway Salesforce Cohort-3', actual);
+    
+    }
+    
+    @isTest//Negative Test
+    public static void helloTest2(){
+    
+    String actual=HelloApex.msg('Hello World');
+    
+    System.assertNotEquals(' Clarusway Salesforce Cohort-3', actual);
+    
+    }
+
+}
