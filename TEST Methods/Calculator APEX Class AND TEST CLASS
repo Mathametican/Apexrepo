@@ -1,0 +1,79 @@
+public class Calculator {
+    
+    public static Integer sum(Integer x,Integer y){
+        
+        return x+y;
+    }
+    
+    public static Integer sub(Integer x,Integer y){
+        
+        return x-y;
+    }
+    
+    public static Integer mul(Integer x,Integer y){
+        
+        return x*y;
+    }
+    
+    public static Decimal div(Decimal x,Decimal y){
+        
+        if(y==0){  //throw an error
+           
+         return 0;
+        }
+        
+        return x/y;
+    }
+    
+
+}
+
+
+
+@isTest
+public class CalculatorTest {
+    
+    @isTest
+    public static void sumTest(){
+        
+        Integer actual=Calculator.sum(14,16);
+        
+        System.assertEquals(30, actual);
+        
+    }
+    
+     @isTest
+    public static void subTest(){
+        
+        Integer actual=Calculator.sub(14,16);
+        
+        System.assertEquals(-2, actual);
+        
+    }
+    
+     @isTest
+    public static void mulTest(){
+        
+        Integer actual=Calculator.mul(3,16);
+        
+        System.assertEquals(48, actual);
+        
+    }
+    
+     @isTest
+    public static void divTest(){
+        
+        Decimal actual=Calculator.div(24,16);
+        
+        System.assertEquals(1.5, actual);
+        
+        actual =Calculator.div(12,0);
+        
+        System.assertEquals(0,actual);
+        
+    }
+    
+ }
+
+
+
