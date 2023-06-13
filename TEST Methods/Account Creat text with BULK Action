@@ -36,12 +36,22 @@ public class AccountCreateBulkification {
             AccountCreateBulkification.createUpperCase(multiAcc);
             
             
-            List<Account> testBulkAcc=[SELECT Id, Name FROM Account];
+            List<Account> testBulkAcc=[SELECT Id, Name FROM Account ORDER BY Name ASC];
             
             System.debug(testBulkAcc);
             
             System.assertEquals(200, testBulkAcc.size());
+            
+            // 	Burada oluşturulan birinci ile birinci ikinci ile ikinci aynımı diye kontrol ettim.
+            for(Integer i=0;i<multiAcc.size();i++){
+           
+                multiAcc.sort();
+                System.debug(multiAcc.get(i));
+                System.debug(testBulkAcc.get(i));
+                System.assertEquals(multiAcc.get(i),testBulkAcc.get(i));
+            }
         }
+        
         // Bulkfication yapan bir APEX class ın single action TEST kod kısmı
         // 
         @isTest
