@@ -74,6 +74,13 @@ public class AccountCreateBulkification {
             
             System.debug(testSingleAcc);
             
-            System.assertEquals(1,testSingleAcc.size());
+            System.assertEquals(1,singleAccList.size());
+            
+            for(Integer i=0;i<singleAccList.size();i++){
+                
+                 System.assertEquals(singleAccList[i], testSingleAcc[i]);
+                
+            }
+               
+            
         }
-    }
