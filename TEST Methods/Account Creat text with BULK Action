@@ -1,0 +1,69 @@
+//Bu şekilde 150 kısıtlamasını aştık. Yoksa single account oluşturan bir APEX
+// Class için TEXT codunda Bulkfication yaptığımızda hatta alıyoruz.
+//Burada APEX Class içindeki metodu String Name değil List<Account> multiAcc olarak
+//oluşturduk yanşi Test codu yazılacak APEX Class ın kendisi Bulkification yapıyor. 
+//Test kodunda direkt bu APEX Class'ı çağırdık. 
+
+public class AccountCreateBulkification {
+    
+    public static void createUpperCase(List<Account> multiAcc){
+        
+        for(Account acc:multiAcc){
+            acc.Name=acc.name.toUpperCase();
+        }
+        
+        insert multiAcc;
+    }
+
+}
+
+//TEST KODUNUN YAZILI OLDUĞU KISIM.
+@isTest
+    public class AccountCreateBulficationTest {
+        
+        @isTest
+        public static void createTest1(){
+            
+            List<Account> multiAcc = New List<Account>();
+            
+            for(Integer x=1;x<=200;x++){
+                
+                Account singleAcc = New Account();
+                singleAcc.Name='Text Bulk Account '+x;
+                multiAcc.add(singleAcc);
+            }
+            
+            AccountCreateBulkification.createUpperCase(multiAcc);
+            
+            
+            List<Account> testBulkAcc=[SELECT Id, Name FROM Account];
+            
+            System.debug(testBulkAcc);
+            
+            System.assertEquals(200, testBulkAcc.size());
+        }
+        // Bulkfication yapan bir APEX class ın single action TEST kod kısmı
+        // 
+        @isTest
+        public static void createtest2(){
+            
+            List<Account> singleAccList= New List<Account>();
+            
+            for(Integer x=1;x<2;x++){
+                
+                Account singleAcc = New Account();
+                
+                singleAcc.name='Test Account single Action '+x;
+                
+                singleAccList.add(singleAcc);
+            }
+            
+            AccountCreateBulkification.createUpperCase(singleAccList);
+            
+            List<Account> testSingleAcc=[SELECT Id, Name FROM Account];
+            
+            System.debug(testSingleAcc);
+            
+            System.assertEquals(1,testSingleAcc.size());
+        }
+    }
