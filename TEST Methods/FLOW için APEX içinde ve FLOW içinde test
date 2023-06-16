@@ -1,0 +1,10 @@
+// TEST codeları DRY RUN yapar bundan dolayı sistemde gerçekde böyle bir kayıt oluşturmasa bile bu kayıda ilişkin ID leri getirir.
+// datalarıda methodun içindeki TEST CRM den getiriyor. @isTest(SeeAllData=true)  ile System CRM dende veri getirebiliyoruz.
+// Unutma not preferable bu
+
+//Ayrıca FLOW içinde de test kısmı var    Autolaunched Flow içinde var
+
+
+//APEX içinde de bir flow test edilebilir
+Flow.Interview curInterview = Flow.Interview.createInterview(namespace, flowName, typedInputVariablesMap);
+curInterview.start();
