@@ -1,0 +1,105 @@
+public class AccountRelatedContactWithValidationRule {
+ 
+    public static Boolean addStudentToChort(String CohortName, List<Contact> multiContact){
+        
+        Account singleAccount=New Account();
+        
+        singleAccount.Name=CohortName;
+        
+        insert singleAccount;
+        
+        for (Contact loopContact:multiContact){
+            
+            loopContact.AccountId=singleAccount.Id;
+            
+            if(String.isBlank(loopContact.LastName)){ //if(loopContact.LastName==null || loopContact.LastName==''){} 
+                                                      // Bu şekilde ifade edilebilir
+             return false; 
+                
+            }
+        }
+             upsert multiContact;
+             
+             return true;
+    }
+}
+
+// BURASI YUKARIDAKİ APEX CLASS IN TEST KISMIDIR.
+
+
+@isTest
+public class AccountRelatedContactWithVRTEST {
+
+    @isTest
+    public static void addStudentToCohort_TEST1(){  //POSITIVE BEHAVIOUR
+        
+    List<Contact> multiContact= New List<Contact>();
+        
+        for(integer i=0; i<=200; i++){
+            
+            Contact singleContact = New Contact();
+            singleContact.FirstName='TEST'+i;
+            singleContact.LastName='Student'+i;
+            
+            multiContact.add(singleContact);
+        }
+        
+        Boolean Result=AccountRelatedContactWithValidationRule.addStudentToChort('TEST COHORT', multiContact);
+        
+        System.assertEquals(true, Result);
+        
+        List<Contact> actual = [SELECT FirstName,LastName, AccountId, Account.Name, Id FROM Contact];
+        
+        Account singleAccount=[SELECT Id, Name FROM Account LIMIT 1];
+        
+        System.assertEquals(201, actual.size());
+        
+        for(Integer i=0; i<multiContact.size(); i++){
+            
+            multiContact.sort();
+            actual.sort();
+            
+        System.assertEquals(multiContact.get(i).Id, actual.get(i).Id);    
+        System.assertEquals(multiContact.get(i).FirstName, actual.get(i).FirstName);
+        System.assertEquals(multiContact.get(i).AccountId, actual.get(i).AccountId); 
+        System.assertEquals(singleAccount.Id, actual.get(i).AccountId);     
+        System.assertEquals(multiContact.get(i).LastName, actual.get(i).LastName);
+           
+       
+        }
+        }
+    
+    @isTest
+    public static void addStudentToCohort_TEST2(){   //NEGATIVE BEHAVIOUR
+        
+    List<Contact> multiContact=New List<Contact>();
+        
+        for(Integer i=0; i<=200; i++){
+            
+            Contact singleContact=New Contact();
+            
+            singleContact.FirstName='TEST'+i;
+            //singleContact.LastName='Student'+i;
+            
+            multiContact.add(singleContact);
+            
+        }
+        
+        Boolean Result=AccountRelatedContactWithValidationRule.addStudentToChort('TEST COHORT', multiContact);
+        
+        System.assertEquals(false, Result);
+        
+        List<Contact> actual=[SELECT FirstName, LastName, Account.Name, Account.Id, Id FROM Contact];
+        
+        Account singleAccount=[SELECT Id, Name FROM Account LIMIT 1];
+        
+        System.assertEquals('TEST COHORT', singleAccount.Name);
+        
+        System.assertEquals(0, actual.size()); 
+        
+        
+        
+    }
+    
+    
+}
