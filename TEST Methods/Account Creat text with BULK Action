@@ -1,7 +1,7 @@
 //Bu şekilde 150 kısıtlamasını aştık. Yoksa single account oluşturan bir APEX
 // Class için TEXT codunda Bulkfication yaptığımızda hatta alıyoruz.
 //Burada APEX Class içindeki metodu String Name değil List<Account> multiAcc olarak
-//oluşturduk yanşi Test codu yazılacak APEX Class ın kendisi Bulkification yapıyor. 
+//oluşturduk yani Test codu yazılacak APEX Class ın kendisi Bulkification yapıyor. 
 //Test kodunda direkt bu APEX Class'ı çağırdık. 
 
 public class AccountCreateBulkification {
