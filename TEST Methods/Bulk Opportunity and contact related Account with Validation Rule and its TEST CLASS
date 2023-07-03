@@ -1,0 +1,349 @@
+public class BulkOpportunityandContactVR {
+    
+    public static Boolean studentToCohort(String cohortName, List<Contact> multiContact, List<Opportunity> multiOpp){
+        
+        if(cohortName==null || cohortName==''){
+            
+            return false;
+        }
+        
+     for(Contact loopContact:multiContact){
+            
+         if(loopContact.LastName==null || loopContact.LastName==''){
+                
+             return false;
+                  
+            }    
+        }
+        
+      for(Opportunity loopOpp:multiOpp){
+            
+          if(loopOpp.Name==null || loopOpp.Name==''){
+                
+              return false;  
+            }
+          
+           else if(loopOpp.StageName==null || loopOpp.StageName==''){
+               
+              return false;
+          }
+          
+          else if(loopOpp.CloseDate==null){
+               
+              return false;
+          }
+        
+      }  
+        
+        Account singleAccount=New Account();
+        
+        singleAccount.Name=cohortName;
+        
+        insert singleAccount;
+        
+        for(Contact loopContact:multiContact){
+            
+            loopContact.AccountId=singleAccount.Id;
+            
+            
+        }
+        
+        upsert multiContact;
+        
+        for(Opportunity loopOpp:multiOpp){
+            
+            loopOpp.AccountId=singleAccount.Id;
+            
+            
+        }
+        
+        
+        
+        upsert multiOpp;
+        
+        return true;
+        
+    } 
+    
+    
+
+}
+
+//TEST CLASS FOR THİS APEX CLASS
+
+@isTest
+public class BulkOpportunityAndContactVRTEST {
+    
+  
+    @isTest
+    public static void TEST1(){
+        
+        List<Contact> multiContact=New List<Contact>();
+        List<Opportunity> multiOpp=New List<Opportunity>();
+        
+        for(Integer i=0; i<200; i++){
+            
+            Contact singleContact=New Contact();
+            singleContact.FirstName='Test'+i;
+            singleContact.LastName='Student'+i;
+            
+            multiContact.add(singleContact);
+        }
+        
+         for(Integer i=0; i<200; i++){
+            
+            Opportunity singleOpp=New Opportunity();
+            singleOpp.Name='Test'+i;
+            singleOpp.CloseDate=Date.Today()+i;
+            singleOpp.StageName='Qualification';
+            
+            multiOpp.add(singleOpp);
+        }
+       
+         Boolean result=BulkOpportunityandContactVR.studentToCohort('',multiContact,multiOpp);
+        System.assertEquals(false,result);
+        
+        List<Account> singleAcc=[SELECT Id, Name FROM Account];
+        System.assertEquals(0, singleAcc.size());
+        
+        List<Contact> ContactList=[SELECT Id, FirstName , LastName, AccountId FROM Contact];
+        
+        System.assertEquals(0, ContactList.size());
+        
+        List<Opportunity> OppList=[SELECT Id, Name,StageName, CloseDate, AccountId FROM Opportunity];
+        
+        System.assertEquals(0, OppList.size());
+        
+       }
+    
+    @isTest
+    public static void TEST2(){
+        
+        List<Contact> multiContact=New List<Contact>();
+        List<Opportunity> multiOpp=New List<Opportunity>();
+        
+        for(Integer i=0; i<200; i++){
+            
+            Contact singleContact=New Contact();
+            singleContact.FirstName='Test'+i;
+            //singleContact.LastName='Student'+i;
+            
+            multiContact.add(singleContact);
+        }
+        
+         for(Integer i=0; i<200; i++){
+            
+            Opportunity singleOpp=New Opportunity();
+            singleOpp.Name='Test'+i;
+            singleOpp.CloseDate=Date.Today()+i;
+            singleOpp.StageName='Qualification';
+            
+            multiOpp.add(singleOpp);
+        }
+       
+         Boolean result=BulkOpportunityandContactVR.studentToCohort('Test Cohort',multiContact,multiOpp);
+        System.assertEquals(false,result);
+        
+        List<Account> singleAcc=[SELECT Id, Name FROM Account];
+        System.assertEquals(0, singleAcc.size());
+        
+        List<Contact> ContactList=[SELECT Id, FirstName , LastName, AccountId FROM Contact];
+        
+        System.assertEquals(0, ContactList.size());
+        
+        List<Opportunity> OppList=[SELECT Id, Name,StageName, CloseDate, AccountId FROM Opportunity];
+        
+        System.assertEquals(0, OppList.size());
+        
+       }
+    
+    @isTest
+    public static void TEST3(){
+        
+        List<Contact> multiContact=New List<Contact>();
+        List<Opportunity> multiOpp=New List<Opportunity>();
+        
+        for(Integer i=0; i<200; i++){
+            
+            Contact singleContact=New Contact();
+            singleContact.FirstName='Test'+i;
+            singleContact.LastName='Student'+i;
+            
+            multiContact.add(singleContact);
+        }
+        
+         for(Integer i=0; i<200; i++){
+            
+            Opportunity singleOpp=New Opportunity();
+            singleOpp.Name='';
+            singleOpp.CloseDate=Date.Today()+i;
+            singleOpp.StageName='Qualification';
+            
+            multiOpp.add(singleOpp);
+        }
+       
+         Boolean result=BulkOpportunityandContactVR.studentToCohort('Test Cohort',multiContact,multiOpp);
+        System.assertEquals(false,result);
+        
+        List<Account> singleAcc=[SELECT Id, Name FROM Account];
+        System.assertEquals(0, singleAcc.size());
+        
+        List<Contact> ContactList=[SELECT Id, FirstName , LastName, AccountId FROM Contact];
+        
+        System.assertEquals(0, ContactList.size());
+        
+        List<Opportunity> OppList=[SELECT Id, Name,StageName, CloseDate, AccountId FROM Opportunity];
+        
+        System.assertEquals(0, OppList.size());
+        
+       }
+    
+    @isTest
+    public static void TEST4(){
+        
+        List<Contact> multiContact=New List<Contact>();
+        List<Opportunity> multiOpp=New List<Opportunity>();
+        
+        for(Integer i=0; i<200; i++){
+            
+            Contact singleContact=New Contact();
+            singleContact.FirstName='Test'+i;
+            singleContact.LastName='Student'+i;
+            
+            multiContact.add(singleContact);
+        }
+        
+         for(Integer i=0; i<200; i++){
+            
+            Opportunity singleOpp=New Opportunity();
+            singleOpp.Name='Test'+i;
+            singleOpp.CloseDate=null;
+            singleOpp.StageName='Qualification';
+            
+            multiOpp.add(singleOpp);
+        }
+       
+         Boolean result=BulkOpportunityandContactVR.studentToCohort('Test Cohort',multiContact,multiOpp);
+        System.assertEquals(false,result);
+        
+        List<Account> singleAcc=[SELECT Id, Name FROM Account];
+        System.assertEquals(0, singleAcc.size());
+        
+        List<Contact> ContactList=[SELECT Id, FirstName , LastName, AccountId FROM Contact];
+        
+        System.assertEquals(0, ContactList.size());
+        
+        List<Opportunity> OppList=[SELECT Id, Name,StageName, CloseDate, AccountId FROM Opportunity];
+        
+        System.assertEquals(0, OppList.size());
+        
+       }
+    
+    @isTest
+    public static void TEST5(){
+        
+        List<Contact> multiContact=New List<Contact>();
+        List<Opportunity> multiOpp=New List<Opportunity>();
+        
+        for(Integer i=0; i<200; i++){
+            
+            Contact singleContact=New Contact();
+            singleContact.FirstName='Test'+i;
+            singleContact.LastName='Student'+i;
+            
+            multiContact.add(singleContact);
+        }
+        
+         for(Integer i=0; i<200; i++){
+            
+            Opportunity singleOpp=New Opportunity();
+            singleOpp.Name='Test'+i;
+            singleOpp.CloseDate=Date.Today()+i;
+            singleOpp.StageName='';
+            
+            multiOpp.add(singleOpp);
+        }
+       
+         Boolean result=BulkOpportunityandContactVR.studentToCohort('Test Cohort',multiContact,multiOpp);
+        System.assertEquals(false,result);
+        
+        List<Account> singleAcc=[SELECT Id, Name FROM Account];
+        System.assertEquals(0, singleAcc.size());
+        
+        List<Contact> ContactList=[SELECT Id, FirstName , LastName, AccountId FROM Contact];
+        
+        System.assertEquals(0, ContactList.size());
+        
+        List<Opportunity> OppList=[SELECT Id, Name,StageName, CloseDate, AccountId FROM Opportunity];
+        
+        System.assertEquals(0, OppList.size());
+        
+       }
+    
+      @isTest
+    public static void Test6(){
+        
+        List<Contact> multiContact=New List<Contact>();
+        List<Opportunity> multiOpp=New List<Opportunity>();
+        
+        for(Integer i=0; i<200; i++){
+            
+            Contact singleContact=New Contact();
+            singleContact.FirstName='Test'+i;
+            singleContact.LastName='Student'+i;
+            
+            multiContact.add(singleContact);
+        }
+        
+         for(Integer i=0; i<200; i++){
+            
+            Opportunity singleOpp=New Opportunity();
+            singleOpp.Name='Test'+i;
+            singleOpp.CloseDate=Date.Today()+i;
+            singleOpp.StageName='Qualification';
+            
+            multiOpp.add(singleOpp);
+        }
+       
+        Boolean result=BulkOpportunityandContactVR.studentToCohort('Test Cohort', multiContact, multiOpp);
+        System.assertEquals(true,result); 
+        
+        Account singleAcc=[SELECT Id, Name FROM Account];
+        System.assertEquals('Test Cohort', singleAcc.Name);
+        
+        List<Contact> ContactList=[SELECT Id, FirstName , LastName, AccountId FROM Contact];
+        
+        System.assertEquals(ContactList.size(), multiContact.size());
+        
+        multiContact.sort();
+        ContactList.sort();
+        
+        for(integer i=0;i<200;i++){
+            
+            System.assertEquals(ContactList.get(i).FirstName, MultiContact.get(i).FirstName);
+            System.assertEquals(ContactList.get(i).LastName, MultiContact.get(i).LastName);
+            System.assertEquals(ContactList.get(i).Id, MultiContact.get(i).Id);
+            System.assertEquals(ContactList.get(i).AccountId, MultiContact.get(i).AccountId);
+        }
+        
+         List<Opportunity> OppList=[SELECT Id, Name,StageName, CloseDate, AccountId FROM Opportunity];
+        
+        System.assertEquals(OppList.size(), multiOpp.size());
+        
+        multiOpp.sort();
+        OppList.sort();
+        
+        for(integer i=0;i<200;i++){
+            
+            System.assertEquals(OppList.get(i).Name, MultiOpp.get(i).Name);
+            System.assertEquals(OppList.get(i).StageName, MultiOpp.get(i).StageName);
+            System.assertEquals(OppList.get(i).CloseDate, MultiOpp.get(i).CloseDate);
+            System.assertEquals(OppList.get(i).AccountId, MultiOpp.get(i).AccountId);
+        }
+        
+        
+        
+        
+    }
+
+}
