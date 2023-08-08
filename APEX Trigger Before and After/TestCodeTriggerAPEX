@@ -1,0 +1,23 @@
+@isTest
+public class firstTriggerTEST {
+    @isTest
+    public static void leadTest1(){
+        
+        Lead testLead=New Lead();
+        
+        testLead.firstName='test 1';
+        testLead.LastName='test 1';
+        testLead.Company='testCompany 1';
+        
+        insert testLead;
+        
+        Lead Result= [Select Id,firstName,LastName,company FROM Lead];
+        
+        system.debug('Trigger Result :'+Result);
+        
+        System.assertEquals('TEST 1',result.firstName);
+        System.assertEquals('TEST 1',result.lastName);
+        System.assertEquals('TESTCOMPANY 1',result.Company);
+        
+        
+    }  //Apex trigger test code direkt olarak çağrılmıyor biz sadece onun çalışmasını sağlıyoruz.

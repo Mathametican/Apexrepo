@@ -1,0 +1,65 @@
+@isTest
+public class firstTriggerTEST {
+    
+    @TestSetup
+    public static void setup(){
+        List<Lead> testLeads =New List<Lead>();
+        
+        for(integer x=1;x<=10;x++ ){
+          Lead testLead=New Lead();
+        
+        testLead.firstName='test '+x;
+        testLead.LastName='test '+x;
+        testLead.Company='testCompany '+x; 
+        testLead.email='email'+x+'@gmail.com';
+            
+            testLeads.add(testLead);
+        }
+        
+        insert testLeads;
+        testLeads.sort();
+    }
+    @isTest
+    public static void leadTest1(){
+        
+        
+        List<Lead> Results= [Select Id,firstName,LastName,company FROM Lead];
+        
+         system.debug('Trigger Result :'+Results);
+        
+        for(integer i=10;i<=1;i--){
+        
+        results.sort();
+            
+        System.assertEquals('TEST '+i,results[i].firstName);
+        System.assertEquals('TEST '+i,results[i].lastName);
+        System.assertEquals('TESTCOMPANY '+i,results[i].Company);
+        }
+        
+ }
+     @isTest
+    public static void leadTest2(){
+        
+        
+        List<Lead> Results= [Select Id,firstName,LastName,company FROM Lead];
+        
+         system.debug('Trigger Result :'+Results);
+        
+        for(integer i=10;i<=1;i--){
+        
+        results[i].email='';    
+        results.sort();
+        
+            try{
+        System.assertEquals('TEST '+i,results[i].firstName);
+        System.assertEquals('TEST '+i,results[i].lastName);
+        System.assertEquals('TESTCOMPANY '+i,results[i].Company);
+        }
+            catch(DmlException e){
+                System.assertEquals('FIELD_CUSTOM_VALIDATION_EXCEPTION, Email Filled Must Be Filled....: [Email]' , e.getMessage());
+            }
+        }
+ }
+
+
+}

@@ -1,0 +1,15 @@
+// Şuana kadar yazılan APEX CLASS lar SYSTEM MOD çalışıyordu ve system modda çalışan APEX CLASS
+// lar Sharing RULES and Object Level Security and Field Level Security ye Respect ETMEZ.
+//System Mod hız gerekli olduğu zaman kullanılır bu APEX CLass 'a ulaşmasını istemiyorsak 
+// Profiline bu APEX CLASS'ı tanımlamıyoruz. Tanımlarsak dibine kadar kullanır.
+// Kullanıcı APEX CLASS ile yazılan CODE daki DATA OBJECT lere erişimi yoktur 
+//Ancak code kullanılmazı gerekiyordur o zaman system mode yazar APEX classı aslında kullanıcıya açar ama kullanıcının SEarch aramalarından ve profilinden 
+// bunları kaldırabilir.  Bunu IU kullanızı yüzüne bir button koyarak veya bunu trigger ile otamatik yaptırabiliriz.
+
+// ISV firmaları APEXCHANGE e ürünün üretir.
+
+// Bu şekilde yazarsak :  public with sharing class UserBasedAPEXCLASSandTEST {
+
+}
+
+paylaşım kurallarına saygı duyar bu APEX CLASS

@@ -1,0 +1,438 @@
+//PRIVATE bir class normalde başka bir method üzerinden ulaşılamıyor ama biz bunu test te çagırmak istiyoruz     @Test visible
+
+//Dikkat  @TestVisible ana Class daki private methoda yazılıyor TEST CLASS a DEĞİL burada testte görünür kıl diyoruz.
+
+public class APEXClassIstestVISIBLE_privateclass {
+    
+    @TestVisible
+    
+     private static Boolean addStudentToCohort(String CohortName,List<Contact> multiContact){
+        
+        if(CohortName==null || CohortName==''){
+            
+            return false;
+        }
+        
+    for( Contact loopContact:multiContact){
+            
+        if(loopContact.LastName==null || loopContact.LastName==''){
+            
+            return false;
+        }
+        }
+        
+    Account singleAccount=New Account();
+        singleAccount.Name=CohortName;
+        
+        //Code da DML operatörlerin olduğu kısımlarda ve SOSL yapılan yerlerde kullanıcının erişimine bakmalıyız.
+        //Burada Account (OLS object level security)
+        // içindeki Name fieldına ulaştığı için (FLS Field Level Security) ve 
+        // Insert yaptığı için CREATE yetkisi var mı diye bakıyoruz.
+        
+        if(Schema.sObjectType.Account.fields.Name.isCreateable()) { // true - false türünden bir deger gönderiyor eger true ise yetkisi var false ise yok
+        // Create new Account
+
+           insert singleAccount;     //AUTH to Account Name Field
+            
+        }else{
+            
+            return false;           //No AUTH to Account Name Field
+        }
+        
+        
+        
+        for(Contact loopContact:multiContact){
+            
+            loopContact.AccountId=singleAccount.Id;
+        }
+        // Bu kısımda da OLS Contact erişim varmı Create Update var mı 
+        //  FLS kısmında ise FirstName LastName gibi field lar List<Contact> ile çağırdığımız için
+        
+        Integer flsPoint= 0;
+        
+        if(Schema.sObjectType.Contact.fields.FirstName.isCreateable() && Schema.sObjectType.Contact.fields.FirstName.isUpdateable()){
+            flsPoint++;
+        if(Schema.sObjectType.Contact.fields.LastName.isCreateable() && Schema.sObjectType.Contact.fields.LastName.isUpdateable()){
+            flsPoint++;
+        if(Schema.sObjectType.Contact.fields.Email.isCreateable() && Schema.sObjectType.Contact.fields.FirstName.isUpdateable()){
+            flsPoint++;
+        if(Schema.sObjectType.Contact.fields.Phone.isCreateable() && Schema.sObjectType.Contact.fields.Phone.isUpdateable()){
+            flsPoint++;
+        }}}}
+        if(flsPoint==4){
+            
+            upsert multiContact; 
+        }else {
+            
+            return false;
+        }
+        
+        
+        return true;
+    }
+    
+    public static void createUpperCase(List<Account> multiAcc){  //Bulkification
+        
+        /*Contact manager=[SELECT Id, Name FROM Contact WHERE Name LIKE '%manager%' WITH SECURITY_ENFORCED]; /*WITH SECURITY_ENFORCED ile userun Contact bu field larına erişimi var mı diye soruyoruz.
+        Eger contact ın bu fieldlardan birine bile erişimi yoksa contact gelmiyor ayrı atrı field lara bakması için  
+        SObjectAccessDecision securityDecision = Security.stripInaccessible(AccessType.READABLE, sourceRecords);
+        Contact c = securityDecision.getRecords()[0];
+        System.debug(c.isSet('Email ')); // prints "false"    BURADA Contact Email field ıdna erişim varmı   Ama bunu yapmak çok zor bunun yerine usera admin git sor senin şu field a erişim yetkin yok*/ 
+        
+        // WITH USER_MODE dersek o kendiliğinden sadece erişim olanları çalıştırıyor.
+        
+        for (Account loopacc:MultiAcc){
+            
+            loopAcc.Name=loopAcc.Name.toUpperCase();
+       }
+        
+        if(Schema.SObjectType.Account.fields.Name.isCreateable()){
+           
+            insert multiAcc;
+        }
+        
+       }
+
+}
+
+// BU APEX CLASS ın TESTİ
+@isTest
+public class ApexIstextVISIBLE_privateClassTEST {
+
+     @isTest
+    public static void TEST1(){//POSITIVE BEHAVIOUR
+        
+        List<Contact> multiContact=New List<Contact>();
+        
+        for(Integer i=0; i<200;i++){
+            
+            Contact singleContact= New Contact();
+            singleContact.FirstName='Test'+i;
+            singleContact.LastName='Student'+i;
+            
+            multiContact.add(singleContact);
+        }
+        
+        Boolean result=APEXClassIstestVISIBLE_privateclass.addStudentToCohort('Test Cohort',multiContact);
+        
+        System.assertEquals(true, result);
+        
+        List<Contact> testContact=[SELECT Id, FirstName, LastName, AccountId FROM Contact];
+        
+        System.assertEquals(200, testContact.size());
+        
+        multiContact.sort();
+        testContact.sort();
+        
+        for(Integer i=0;i<200;i++){
+            
+            System.assertEquals(multiContact.get(i).FirstName, TestContact.get(i).FirstName);
+            System.assertEquals(multiContact.get(i).LastName, TestContact.get(i).LastName);
+            System.assertEquals(multiContact.get(i).Id, TestContact.get(i).Id);
+            System.assertEquals(multiContact.get(i).AccountId, TestContact.get(i).AccountId);
+        }
+        }
+    
+      @isTest
+    public static void TEST2(){//NEGATIVE BEHAVIOUR
+        
+        List<Contact> multiContact=New List<Contact>();
+        
+        for(Integer i=0; i<200;i++){
+            
+            Contact singleContact= New Contact();
+            singleContact.FirstName='Test'+i;
+            singleContact.LastName='Student'+i;
+            
+            multiContact.add(singleContact);
+        }
+        
+        Boolean result=APEXClassIstestVISIBLE_privateclass.addStudentToCohort('',multiContact);
+        
+        System.assertEquals(false, result);
+        
+        List<Contact> testContact=[SELECT Id, FirstName, LastName, AccountId FROM Contact];
+        
+        System.assertEquals(0, testContact.size());
+        
+    }
+    
+      @isTest
+    public static void TEST3(){//Negatıve BEHAVIOUR
+        
+        List<Contact> multiContact=New List<Contact>();
+        
+        for(Integer i=0; i<200;i++){
+            
+            Contact singleContact= New Contact();
+            singleContact.FirstName='Test'+i;
+            //singleContact.LastName='Student'+i;
+            
+            multiContact.add(singleContact);
+        }
+        
+        Boolean result=APEXClassIstestVISIBLE_privateclass.addStudentToCohort('Test Cohort',multiContact);
+        
+        System.assertEquals(false, result);
+        
+        List<Contact> testContact=[SELECT Id, FirstName, LastName, AccountId FROM Contact];
+        
+        System.assertEquals(0, testContact.size());
+        
+       
+        }
+    
+      @isTest
+    public static void TEST4(){//UnAuthorized USER TEST   
+        
+        //Prepare DATA
+        List<Contact> multiContact=New List<Contact>();
+        
+        for(Integer i=0; i<200;i++){
+            
+            Contact singleContact= New Contact();
+            singleContact.FirstName='Test'+i;
+            singleContact.LastName='Student'+i;
+            
+            multiContact.add(singleContact);
+        }
+        
+        //UnAuthorized User Oluşturacagız.
+         
+        // Setup test data
+        // Create a unique UserName
+        String uniqueUserName = 'standarduserkubus' + DateTime.now().getTime() + '@testorg.com';
+        // This code runs as the system user
+        Profile p = [SELECT Id FROM Profile WHERE Name='Minimum Access - Salesforce'];
+        
+        User u = new User(Alias = 'standt', Email='standarduser@testorg.com',
+        EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US',
+        LocaleSidKey='en_US', ProfileId = p.Id,
+        TimeZoneSidKey='America/Los_Angeles',
+         UserName=uniqueUserName);
+        Boolean result;
+        System.runAs(u) {
+              // The following code runs as user 'u'
+              System.debug('Current User: ' + UserInfo.getUserName());
+              System.debug('Current Profile: ' + UserInfo.getProfileId());
+          
+        
+        result=APEXClassIstestVISIBLE_privateclass.addStudentToCohort('Test Cohort',multiContact);
+        
+        }   
+         
+        System.assertEquals(false, result);
+        
+        List<Contact> testContact=[SELECT Id, FirstName, LastName, AccountId FROM Contact];
+        
+        System.assertEquals(0, testContact.size());
+       
+    }// Run as diyorsan verileri run as içine yaz ki onun için çalışsın.
+    
+    
+     @isTest
+    public static void TEST5(){//Authorized USER TEST   
+        
+        //Prepare DATA
+        List<Contact> multiContact=New List<Contact>();
+        
+        for(Integer i=0; i<200;i++){
+            
+            Contact singleContact= New Contact();
+            singleContact.FirstName='Test'+i;
+            singleContact.LastName='Student'+i;
+            
+            multiContact.add(singleContact);
+        }
+        
+        //Authorized User Oluşturacagız.
+         
+        // Setup test data
+        // Create a unique UserName
+        String uniqueUserName = 'standarduserkubusS' + DateTime.now().getTime() + '@testorg.com';
+        // This code runs as the system user
+        Profile p = [SELECT Id FROM Profile WHERE Name='Standard User'];
+        
+        User u = new User(Alias = 'standt', Email='standarduser@testorg.com',
+        EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US',
+        LocaleSidKey='en_US', ProfileId = p.Id,
+        TimeZoneSidKey='America/Los_Angeles',
+         UserName=uniqueUserName);
+        
+        Boolean result;
+
+        System.runAs(u) {
+              // The following code runs as user 'u'
+              System.debug('Current User: ' + UserInfo.getUserName());
+              System.debug('Current Profile: ' + UserInfo.getProfileId());
+          
+        
+        result=APEXClassIstestVISIBLE_privateclass.addStudentToCohort('Test Cohort',multiContact);
+        }
+        System.assertEquals(true, result);
+        
+        List<Contact> testContact=[SELECT Id, FirstName, LastName, AccountId FROM Contact];
+        
+        System.assertEquals(200, testContact.size());
+            multiContact.sort();
+        testContact.sort();
+        
+        for(Integer i=0;i<200;i++){
+            
+            System.assertEquals(multiContact.get(i).FirstName, TestContact.get(i).FirstName);
+            System.assertEquals(multiContact.get(i).LastName, TestContact.get(i).LastName);
+            System.assertEquals(multiContact.get(i).Id, TestContact.get(i).Id);
+            System.assertEquals(multiContact.get(i).AccountId, TestContact.get(i).AccountId);
+        }
+        
+         
+       
+    }// Run as diyorsan verileri run as içine yaz ki onun için çalışsın.
+    
+      @isTest
+    public static void TEST6(){//Half Authorized USER TEST   
+        
+        //Prepare DATA
+        List<Contact> multiContact=New List<Contact>();
+        
+        for(Integer i=0; i<200;i++){
+            
+            Contact singleContact= New Contact();
+            singleContact.FirstName='Test'+i;
+            singleContact.LastName='Student'+i;
+            
+            multiContact.add(singleContact);
+        }
+        
+        //UnAuthorized User Oluşturacagız.
+         
+        // Setup test data
+        // Create a unique UserName
+        String uniqueUserName = 'standarduserkubus' + DateTime.now().getTime() + '@testorg.com';
+        // This code runs as the system user
+        Profile p = [SELECT Id FROM Profile WHERE Name='Clone Standard Profile'];
+        
+        User u = new User(Alias = 'standt', Email='standarduser@testorg.com',
+        EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US',
+        LocaleSidKey='en_US', ProfileId = p.Id,
+        TimeZoneSidKey='America/Los_Angeles',
+         UserName=uniqueUserName);
+        Boolean result;
+        System.runAs(u) {
+              // The following code runs as user 'u'
+              System.debug('Current User: ' + UserInfo.getUserName());
+              System.debug('Current Profile: ' + UserInfo.getProfileId());
+          
+        
+        result=APEXClassIstestVISIBLE_privateclass.addStudentToCohort('Test Cohort',multiContact);
+        
+        }   
+         
+        System.assertEquals(false, result);
+        
+        List<Contact> testContact=[SELECT Id, FirstName, LastName, AccountId FROM Contact];
+        
+        System.assertEquals(0, testContact.size());
+       
+    }// Run as diyorsan verileri run as içine yaz ki onun için çalışsın.
+    
+    @isTest
+    public static void TEST7(){//UnAuthorized USER TEST   
+        
+        //Prepare DATA
+        List<Account> multiAcc=New List<Account>();
+        
+        for(Integer i=0; i<200;i++){
+            
+            Account singleAcc= New Account();
+            singleAcc.Name='manager'+i;
+            
+           multiAcc.add(singleAcc);
+        }
+        
+        //UnAuthorized User Oluşturacagız.
+         
+        // Setup test data
+        // Create a unique UserName
+        String uniqueUserName = 'standarduserkubus' + DateTime.now().getTime() + '@testorg.com';
+        // This code runs as the system user
+        Profile p = [SELECT Id FROM Profile WHERE Name='Minimum Access - Salesforce'];
+        
+        User u = new User(Alias = 'standt', Email='standarduser@testorg.com',
+        EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US',
+        LocaleSidKey='en_US', ProfileId = p.Id,
+        TimeZoneSidKey='America/Los_Angeles',
+         UserName=uniqueUserName);
+        
+         
+        
+        System.runAs(u) {
+              // The following code runs as user 'u'
+              System.debug('Current User: ' + UserInfo.getUserName());
+              System.debug('Current Profile: ' + UserInfo.getProfileId());
+          
+               APEXClassIstestVISIBLE_privateclass.createUpperCase(multiAcc);
+        
+        }   
+         
+        List<Account> testAcc=[SELECT Id, Name FROM Account];
+        
+        System.assertEquals(0, testAcc.size());
+       
+    }
+    
+      @isTest
+    public static void TEST8(){ //Authorized USER TEST   
+        
+        //Prepare DATA
+        List<Account> multiAcc=New List<Account>();
+        
+        for(Integer i=0; i<200;i++){
+            
+            Account singleAcc= New Account();
+            singleAcc.Name='manager'+i;
+            
+           multiAcc.add(singleAcc);
+        }
+        
+        //UnAuthorized User Oluşturacagız.
+         
+        // Setup test data
+        // Create a unique UserName
+        String uniqueUserName = 'standarduserkubus' + DateTime.now().getTime() + '@testorg.com';
+        // This code runs as the system user
+        Profile p = [SELECT Id FROM Profile WHERE Name='Standard User'];
+        
+        User u = new User(Alias = 'standt', Email='standarduser@testorg.com',
+        EmailEncodingKey='UTF-8', LastName='Testing', LanguageLocaleKey='en_US',
+        LocaleSidKey='en_US', ProfileId = p.Id,
+        TimeZoneSidKey='America/Los_Angeles',
+         UserName=uniqueUserName);
+        
+         
+        
+        System.runAs(u) {
+              // The following code runs as user 'u'
+              System.debug('Current User: ' + UserInfo.getUserName());
+              System.debug('Current Profile: ' + UserInfo.getProfileId());
+          
+               APEXClassIstestVISIBLE_privateclass.createUpperCase(multiAcc);
+        
+        }   
+         
+        List<Account> testAcc=[SELECT Id, Name FROM Account];
+        
+        System.assertEquals(200, testAcc.size());
+        
+         multiAcc.sort();
+         testAcc.sort();
+        
+        for(Integer i=0;i<200;i++){
+            
+            System.assertEquals(multiAcc.get(i).Name, TestAcc.get(i).Name);
+           
+        }
+       
+    }
+   
+}

@@ -1,0 +1,25 @@
+trigger firstTrigger on Lead (before insert) {
+
+System.debug('------Lead Trigger is working---------');  //System debug ile trigger.new içinde ne var ona baktık
+System.debug(Trigger.new);
+    
+    for(Lead singleLead: Trigger.new){  //trigger.new aslında bir list içinde yeni oluşan kayıtlar var burada kaçtane new lead oluşturuluyorsa o kadar var 1 den 1000lerceye
+        
+        System.debug('Before Update');   //uptade öncesi ve sonrasına for un içine yazdığımiz system.bebug ile baktık
+        System.debug(SingleLead);
+        
+        singleLead.firstName=singleLead.firstName.toUpperCase();
+        singleLead.LastName=singleLead.LastName.toUpperCase();
+        singleLead.Company=singleLead.Company.toUpperCase();
+        
+        System.debug('After Update');
+        System.debug(SingleLead);
+    
+    }
+     
+    
+//Burada update trigger.new yada list of lead dememize gerek yok kendisi otomatik güncelliyor.
+  //Before trgigger ile Validation Rules da tanımlanabilir  
+
+//Add error ile istersek field ın üzerinede ekleyebiliyoruz.  
+}
