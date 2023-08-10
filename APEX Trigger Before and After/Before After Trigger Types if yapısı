@@ -1,0 +1,38 @@
+trigger LeadTrigger1 on Lead (before insert,before update, before delete,    // before trigger ile field update and Validation Rules burada record un ID si yok
+                            
+                             after insert, after update, after delete,after undelete) {  //Burada yapacaklarımız daha fazla OTHER Object, API Call,SOQL  Burada Record un ID si var yani ilişkili olduğu kayıtlara ulaşabiliyoruz.
+                                 
+                             System.debug('Trigger is running ...'+trigger.OperationType); //Eğer ben bir trigger oluşturup sonra onu update edip siler vede geri yüklersem bu tigger 7 defa çalışacak.
+                                                                     //Eğer sadece belli işlemlerde çalışmasını istiyorsam bu sefer devreye operation type giriyor.
+                             
+                                 if(Trigger.isBefore){              // Before Trigger Before trigger larda da insert olanı çalıştır
+                                     
+                                     if(Trigger.isInsert){
+                                         
+                                     }
+                                     if(Trigger.isUpdate){
+                                         
+                                     }
+                                     if(Trigger.isDelete){
+                                         
+                                     }
+                                     
+                                 }
+                                  if(Trigger.isAfter){              // After Trigger After trigger larda da insert olanı çalıştır
+                                     
+                                     if(Trigger.isInsert){
+                                         
+                                     }
+                                     if(Trigger.isUpdate){
+                                         
+                                     }
+                                     if(Trigger.isDelete){
+                                         
+                                     }
+                                      if(Trigger.isUnDelete){
+                                          
+                                      }
+                                     
+                                 }
+
+}

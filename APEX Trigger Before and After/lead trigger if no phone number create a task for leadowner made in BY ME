@@ -1,0 +1,21 @@
+trigger Lead_Trigger_No_Phone_Create_Task on Lead (after insert,after update ) {
+  List<Task> multiTask=New List<Task>(); 
+for(Lead singleLead:Trigger.new){
+
+if(singleLead.phone=='' || singleLead.phone==Null){
+
+Task singleTask=New Task();
+singletask.OwnerId=singleLead.OwnerId;
+singleTask.WhoId=singleLead.Id;
+singleTask.Subject='Other';
+singleTask.Priority='Normal';
+singleTask.Status='Not Started'; 
+singleTask.Description='Please Fiil in the Lead Phone Number';    
+multiTask.add(singleTask);
+    System.debug('Task is created'+singleTask);
+
+}
+  
+}
+insert multiTask;
+}

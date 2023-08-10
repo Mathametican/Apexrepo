@@ -1,0 +1,22 @@
+trigger Lead_Trigger_Switch_On on Lead (before insert, before update, before delete,
+                                       after insert, after update, after delete, after undelete) {
+                                           
+     //System.debug('Lead Trigger is Running...'+Trigger.OperationType);  
+                                           
+                              switch on trigger.OperationType{
+                                  
+                                  //field update / Validation Rule
+                                  when BEFORE_INSERT{}
+                                  when BEFORE_UPDATE{}
+                                  when BEFORE_DELETE{}
+                                  
+                                  //Record Id .... Relation...
+                                  when AFTER_INSERT{}
+                                  when AFTER_UPDATE{}  //Bu sıkıntılı burada sonsuz döngüye girebiliyor.
+                                  when AFTER_DELETE{}
+                                  
+                                  when AFTER_UNDELETE{}
+                                               
+                                           }                                 
+
+}
