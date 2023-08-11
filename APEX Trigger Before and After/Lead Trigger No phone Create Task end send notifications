@@ -1,0 +1,62 @@
+trigger Lead_Trigger_No_Phone_Create_Task1 on Lead (before insert,before update,before delete,
+                                                   after insert, after update, after delete, after undelete) {
+    
+    /*if(trigger.isAfter){        //bu yapılar yukarıya trigger türlerinden birçogunu yazdığımızda kullanılıyor ve böyle yapmakta yarar 
+                                    var çünkü aynı objeye birden fazla trigger yapmamız gerektiğinde tek bir class üzerinden yapabiliriz 
+                                   yoksa karışıklığa sebeb oluyor burada switch on when yada if yapısı ile hangi operation type da neyi belirleyeceğimizi 
+                                    bulabiliriz.
+                                  
+
+     if(trigger.isInsert){
+
+     }
+     }    
+
+YADA if(trigger.isAfter && trigger.isInsert){
+
+}  Yapısını kullanacağız yada SWITCH ON WHEN */
+                                                       
+        List<Task> multiTask=New List<Task>();                                               
+    
+      switch on Trigger.OperationType{
+          
+          When BEFORE_INSERT{}
+          When BEFORE_UPDATE{}
+          When BEFORE_DELETE{}
+          
+          When AFTER_INSERT{
+              
+              //Bulkification...... Trigger.New=List<Lead>
+              //List<Task> multiTask=New List<Task>();   // Burada oluşturacağım gibi tüm when lerden önce oluşturur ve gerekin operetion type da çağırabilirim bu daha mantıklı
+              
+              for(Lead singleLead:Trigger.New){
+                  
+                  if(String.isBlank(singleLead.phone)){
+                      
+                     Task singleTask = New Task();
+                      singleTask.Subject='Please enter lead phone number to the phone field';
+                      singleTask.ActivityDate=date.today()+10;
+                      singleTask.WhoId=singleLead.Id;
+                      singleTask.OwnerId=singleLead.OwnerId;
+                      singleTask.Status='Not Started';
+                      singleTask.IsReminderSet=True;
+                      singleTask.ReminderDateTime = System.now(); //DATE.TODAY();
+                  
+                  multiTask.add(singleTask);
+                  }
+                  }
+              
+              insert multiTask;
+              
+          }
+          When AFTER_UPDATE{}
+          When AFTER_DELETE{}
+          
+          When AFTER_UNDELETE{}
+       
+                                                           
+                                                       }
+    
+    
+
+}

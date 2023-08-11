@@ -1,0 +1,66 @@
+@isTest
+public class LeadTriggerTaskandNotficationTEST {
+    @TestSetup
+    public static void leads(){
+        
+        List<Lead> multiLead=New List<Lead>();
+        
+        for(Integer i=1; i<=200; i++){
+            
+           Lead singleLead = New Lead();
+            singleLead.firstName=i+' Test ';
+            singleLead.LastName='Test '+i;
+            singleLead.Company='Test Company'+i;
+          
+            multiLead.add(singleLead);
+           
+        } 
+        insert multilead;
+        
+        List<Lead> multiLead2=New List<Lead>();
+        
+        for(Integer i=1; i<=200; i++){
+            
+           Lead singleLead = New Lead();
+            singleLead.firstName=i+' Tes2t ';
+            singleLead.LastName='Test2 '+i;
+            singleLead.Company='Test2 Company'+i;
+            singleLead.Phone='526 452 86 89';
+          
+            multiLead2.add(singleLead);
+           
+        } 
+        insert multilead2;
+      
+    }
+    @isTest
+    public static void Test1(){
+      
+     List<Task> testTasks=[SELECT Id, Status, ActivityDate, WhoId, OwnerId, ReminderDateTime, IsReminderSet, Subject FROM Task];   
+     System.assertEquals(200,testTasks.size()); 
+        for(Task singleTask:testTasks){
+            System.assertEquals('Please enter lead phone number to the phone field', singleTask.subject);
+        }//Hocada yok
+        
+     List<Lead> testLead=[SELECT Id,firstName,lastName,company,phone,
+                       (SELECT Id, Status, ActivityDate, WhoId, OwnerId, ReminderDateTime, IsReminderSet, Subject FROM Tasks) FROM Lead];
+     
+     System.assertEquals(400, testLead.size());//Hocada yok
+        
+        Integer countTask=0;
+   for(Lead singleLead:testLead){
+           
+       if(singleLead.tasks.size()!=0){
+       countTask++;
+       }
+       }
+        
+       System.debug('Total Lead :'+testLead.size());
+       System.debug('How Many Task is created :'+countTask);
+        
+       System.assertEquals(400, testLead.size());
+       System.assertEquals(200,countTask); 
+       }
+}    //Triggerların Run as User olmuyor çünkü zaten o kayıt oluştuğunda kendiliğinden trigger oluyor bir satır bile testte kontrol edilse yeterli ancak en iyisi %100
+    
+   
